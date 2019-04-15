@@ -34,6 +34,14 @@ array of regular expressions that will be checked when looking for unused
 translations.
 
 
+Caveats
+------------------------------------------------------------------------------
+
+There are a number of things that we do not support yet. Have a look at the
+[Issues](https://github.com/simplabs/ember-intl-analyzer/issues) before using
+this project.
+
+
 Related
 ------------------------------------------------------------------------------
 
