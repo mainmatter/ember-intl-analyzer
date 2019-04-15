@@ -28,7 +28,7 @@ async function run() {
   console.log(`${step(3)} ⚙️   Checking for unused translations...`);
   let translationFiles = await findTranslationFiles(rootDir);
   let existingTranslationKeys = await analyzeTranslationFiles(rootDir, translationFiles);
-  let unusedTranslations = findUnusedTranslations(usedTranslationKeys, existingTranslationKeys);
+  let unusedTranslations = findUnusedTranslations(usedTranslationKeys, existingTranslationKeys, WHITELIST);
 
   console.log();
   if (unusedTranslations.size === 0) {
@@ -180,12 +180,12 @@ function forEachTranslation(json, callback, prefix = '') {
   }
 }
 
-function findUnusedTranslations(usedTranslationKeys, existingTranslationKeys) {
+function findUnusedTranslations(usedTranslationKeys, existingTranslationKeys, whitelist) {
   let unusedTranslations = new Map();
 
   for (let [existingTranslationKey, files] of existingTranslationKeys) {
     if (usedTranslationKeys.has(existingTranslationKey)) continue;
-    if (WHITELIST.some(regex => regex.test(existingTranslationKey))) continue;
+    if (whitelist.some(regex => regex.test(existingTranslationKey))) continue;
     unusedTranslations.set(existingTranslationKey, files);
   }
 
