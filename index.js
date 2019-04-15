@@ -13,13 +13,12 @@ const traverse = require('@babel/traverse').default;
 const Glimmer = require('@glimmer/syntax');
 const Emblem = require('emblem').default;
 
-const WHITELIST = [];
-
 async function run() {
   const NUM_STEPS = 3;
   const step = num => chalk.dim(`[${num}/${NUM_STEPS}]`);
 
   let rootDir = await pkgDir();
+  let config = readConfig(rootDir);
 
   console.log(`${step(1)} 🔍  Finding JS and HBS files...`);
   let files = await findAppFiles(rootDir);
@@ -28,7 +27,9 @@ async function run() {
   console.log(`${step(3)} ⚙️   Checking for unused translations...`);
   let translationFiles = await findTranslationFiles(rootDir);
   let existingTranslationKeys = await analyzeTranslationFiles(rootDir, translationFiles);
-  let unusedTranslations = findUnusedTranslations(usedTranslationKeys, existingTranslationKeys, WHITELIST);
+
+  let whitelist = config.whitelist || [];
+  let unusedTranslations = findUnusedTranslations(usedTranslationKeys, existingTranslationKeys, whitelist);
 
   console.log();
   if (unusedTranslations.size === 0) {
@@ -40,6 +41,18 @@ async function run() {
       console.log(`   - ${key} ${chalk.dim(`(used in ${generateFileList(files)})`)}`);
     }
   }
+}
+
+function readConfig(cwd) {
+  let configPath = `${cwd}/config/ember-intl-analyzer.js`;
+
+  let config = {};
+  if (fs.existsSync(configPath)) {
+    let requireESM = require('esm')(module);
+    config = requireESM(configPath).default;
+  }
+
+  return config;
 }
 
 async function findAppFiles(cwd) {

@@ -12,6 +12,28 @@ npx ember-intl-analyzer
 ```
 
 
+Configuration
+------------------------------------------------------------------------------
+
+ember-intl-analyzer can be configured by creating a `config/ember-intl-analyzer.js`
+file in your app:
+
+```js
+export default {
+  whitelist: [
+    /^countries\./,
+    /^currency\./,
+    /^validations\.errors\./,
+    /^[^.]+\.warnings\.[^.]+$/,
+  ],
+};
+```
+
+The only configuration option at the moment is `whitelist`, which accepts an
+array of regular expressions that will be checked when looking for unused
+translations.
+
+
 Related
 ------------------------------------------------------------------------------
 
