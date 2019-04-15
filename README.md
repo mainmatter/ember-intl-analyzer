@@ -29,7 +29,17 @@ export default {
 };
 ```
 
-The only configuration option at the moment is `whitelist`, which accepts an
+### `whitelist`
+
+If you use dynamic translations keys like this:
+```js
+this.intl.t(`countries.${code}`)
+```
+then ember-intl-analyzer can not easily understand what translation keys are
+being used here. In that case it will ignore the dynamic translation key and
+show the corresponding translations as unused.
+
+To prevent that from happening you can configure a `whitelist`, which accepts an
 array of regular expressions that will be checked when looking for unused
 translations.
 
