@@ -12,7 +12,7 @@ const traverse = require('@babel/traverse').default;
 const Glimmer = require('@glimmer/syntax');
 const Emblem = require('emblem').default;
 
-const BASE_DIR = `${__dirname}/..`;
+const BASE_DIR = process.cwd();
 
 const WHITELIST = [];
 
