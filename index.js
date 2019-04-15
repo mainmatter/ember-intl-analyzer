@@ -21,12 +21,12 @@ async function run() {
   const step = num => chalk.dim(`[${num}/${NUM_STEPS}]`);
 
   console.log(`${step(1)} 🔍  Finding JS and HBS files...`);
-  let files = await findAppFiles();
+  let files = await findAppFiles(BASE_DIR);
   console.log(`${step(2)} 🔍  Searching for translations keys in JS and HBS files...`);
-  let usedTranslationKeys = await analyzeFiles(files);
+  let usedTranslationKeys = await analyzeFiles(BASE_DIR, files);
   console.log(`${step(3)} ⚙️   Checking for unused translations...`);
-  let translationFiles = await findTranslationFiles();
-  let existingTranslationKeys = await analyzeTranslationFiles(translationFiles);
+  let translationFiles = await findTranslationFiles(BASE_DIR);
+  let existingTranslationKeys = await analyzeTranslationFiles(BASE_DIR, translationFiles);
   let unusedTranslations = findUnusedTranslations(usedTranslationKeys, existingTranslationKeys);
 
   console.log();
@@ -41,19 +41,19 @@ async function run() {
   }
 }
 
-async function findAppFiles() {
-  return globby(['app/**/*.js', 'app/**/*.hbs', 'app/**/*.emblem'], { cwd: BASE_DIR });
+async function findAppFiles(cwd) {
+  return globby(['app/**/*.js', 'app/**/*.hbs', 'app/**/*.emblem'], { cwd });
 }
 
-async function findTranslationFiles() {
-  return globby(['translations/**/*.json'], { cwd: BASE_DIR });
+async function findTranslationFiles(cwd) {
+  return globby(['translations/**/*.json'], { cwd });
 }
 
-async function analyzeFiles(files) {
+async function analyzeFiles(cwd, files) {
   let allTranslationKeys = new Set();
 
   for (let file of files) {
-    let translationKeys = await analyzeFile(file);
+    let translationKeys = await analyzeFile(cwd, file);
 
     for (let translationKey of translationKeys) {
       allTranslationKeys.add(translationKey);
@@ -63,8 +63,8 @@ async function analyzeFiles(files) {
   return allTranslationKeys;
 }
 
-async function analyzeFile(file) {
-  let content = fs.readFileSync(`${BASE_DIR}/${file}`, 'utf8');
+async function analyzeFile(cwd, file) {
+  let content = fs.readFileSync(`${cwd}/${file}`, 'utf8');
   let extension = path.extname(file).toLowerCase();
 
   if (extension === '.js') {
@@ -145,11 +145,11 @@ async function analyzeHbsFile(content) {
   return translationKeys;
 }
 
-async function analyzeTranslationFiles(files) {
+async function analyzeTranslationFiles(cwd, files) {
   let existingTranslationKeys = new Map();
 
   for (let file of files) {
-    let content = fs.readFileSync(`${BASE_DIR}/${file}`, 'utf8');
+    let content = fs.readFileSync(`${cwd}/${file}`, 'utf8');
     let json = JSON.parse(content);
     forEachTranslation(json, key => {
       if (!existingTranslationKeys.has(key)) {
