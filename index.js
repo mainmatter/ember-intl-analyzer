@@ -5,6 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const pkgDir = require('pkg-dir');
 const chalk = require('chalk');
 const globby = require('globby');
 const BabelParser = require('@babel/parser');
@@ -12,21 +13,21 @@ const traverse = require('@babel/traverse').default;
 const Glimmer = require('@glimmer/syntax');
 const Emblem = require('emblem').default;
 
-const BASE_DIR = process.cwd();
-
 const WHITELIST = [];
 
 async function run() {
   const NUM_STEPS = 3;
   const step = num => chalk.dim(`[${num}/${NUM_STEPS}]`);
 
+  let rootDir = await pkgDir();
+
   console.log(`${step(1)} 🔍  Finding JS and HBS files...`);
-  let files = await findAppFiles(BASE_DIR);
+  let files = await findAppFiles(rootDir);
   console.log(`${step(2)} 🔍  Searching for translations keys in JS and HBS files...`);
-  let usedTranslationKeys = await analyzeFiles(BASE_DIR, files);
+  let usedTranslationKeys = await analyzeFiles(rootDir, files);
   console.log(`${step(3)} ⚙️   Checking for unused translations...`);
-  let translationFiles = await findTranslationFiles(BASE_DIR);
-  let existingTranslationKeys = await analyzeTranslationFiles(BASE_DIR, translationFiles);
+  let translationFiles = await findTranslationFiles(rootDir);
+  let existingTranslationKeys = await analyzeTranslationFiles(rootDir, translationFiles);
   let unusedTranslations = findUnusedTranslations(usedTranslationKeys, existingTranslationKeys);
 
   console.log();
