@@ -2,7 +2,7 @@
   "name": "ember-intl-analyzer",
   "version": "1.0.0",
   "description": "Find unused translations in your Ember.js projects",
-  "homepage": "https://github.com:simplabs/ember-intl-analyzer",
+  "homepage": "https://github.com/simplabs/ember-intl-analyzer",
   "repository": "git@github.com:simplabs/ember-intl-analyzer.git",
   "license": "MIT",
   "author": "Tobias Bieniek <tobias.bieniek@gmail.com>",
