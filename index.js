@@ -29,7 +29,11 @@ async function run() {
   let existingTranslationKeys = await analyzeTranslationFiles(rootDir, translationFiles);
 
   let whitelist = config.whitelist || [];
-  let unusedTranslations = findUnusedTranslations(usedTranslationKeys, existingTranslationKeys, whitelist);
+  let unusedTranslations = findUnusedTranslations(
+    usedTranslationKeys,
+    existingTranslationKeys,
+    whitelist
+  );
 
   console.log();
   if (unusedTranslations.size === 0) {
@@ -99,7 +103,7 @@ async function analyzeJsFile(content) {
   // parse the JS file
   let ast = BabelParser.parse(content, {
     sourceType: 'module',
-    plugins: ['dynamicImport'],
+    plugins: ['dynamicImport']
   });
 
   // find translation keys in the syntax tree
@@ -117,7 +121,7 @@ async function analyzeJsFile(content) {
       if (firstParam.type !== 'StringLiteral') return;
 
       translationKeys.add(firstParam.value);
-    },
+    }
   });
 
   return translationKeys;
@@ -153,7 +157,7 @@ async function analyzeHbsFile(content) {
       if (firstParam.type !== 'StringLiteral') return;
 
       translationKeys.add(firstParam.value);
-    },
+    }
   });
 
   return translationKeys;
