@@ -13,8 +13,7 @@
     "ember-intl-analyzer": "index.js"
   },
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@babel/parser": "^7.4.3",
