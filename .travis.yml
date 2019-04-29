@@ -18,3 +18,12 @@ install:
 
 script:
   - yarn lint
+
+deploy:
+  provider: npm
+  email: info@simplabs.com
+  api_key:
+    secure: dbsfooERXfo7WRxh4rypQQikwy6jCD4SHILe5X8rC9Eh7Kd6xviCYn09TxEdKfODk3DNO0lEXU6JYAZAP5aBQDUEnJKFifWQGFkndoQYNmvqIpJY7S5gV2Wpg4ZZ76EIkipvbG94iUPxfUi2wsk1r5C2iQf9bwAZHQJcMeXR9QiqnUajK+Busb7rz7sCuftgv5yPjGo3jizDfhQLF4ur2jrTj8Ux/JdCd/EcYJv4ASJLdTd6EzroC+PmbFjFFlNyEuPtMkM/YIUtVeid+ylYbQTTht/nzQQQ9I+CXgGwHto+UwJNykNGiLQPlEhw1GRKufD1pkrYRmqUN1W0q5CUZZ4eY8rJ2DtIwSpwcV1jFhRsfJeIfAJ/bAjz99Zzgn9Jhsx+ACNsQ+uIzWNlE1QW5bndXAUKBIXl4KLDb29OAmvNlEZns/FN+j7c8+TxlKoXR76c7QoWX3aHEMWNPILW0z4gyhKjjLXoIUUMEEr2sjamGO8EiwdKzqF5GUxcPMU+k8EKs0tS2YnrygmN+BxzqthlOvbGqRYEGZ5h2bS0W0j69XHNwMk3UWlcc+viF4Iouylv7q1zf9Ny+qiF+hQ9BxzEt//Aqh1dF5/sWnEn2YWNsVgHV3CvOPAl30nyKFE6qiDlORo4NP6UHY+oO3tI5EkQtacijEQ3im6D30oymeQ=
+  on:
+    tags: true
+    repo: simplabs/ember-intl-analyzer
