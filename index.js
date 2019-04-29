@@ -29,7 +29,11 @@ async function run() {
   let existingTranslationKeys = await analyzeTranslationFiles(rootDir, translationFiles);
 
   let whitelist = config.whitelist || [];
-  let unusedTranslations = findUnusedTranslations(usedTranslationKeys, existingTranslationKeys, whitelist);
+  let unusedTranslations = findUnusedTranslations(
+    usedTranslationKeys,
+    existingTranslationKeys,
+    whitelist
+  );
 
   console.log();
   if (unusedTranslations.size === 0) {
