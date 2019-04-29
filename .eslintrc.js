@@ -12,15 +12,6 @@ module.exports = {
   },
   rules: {
     'no-console': 'off',
-    'prettier/prettier': [
-      'error',
-      {
-        printWidth: 100,
-        semi: true,
-        bracketSpacing: true,
-        endOfLine: 'lf',
-        singleQuote: true,
-      },
-    ],
+    'prettier/prettier': 'error',
   },
 };
