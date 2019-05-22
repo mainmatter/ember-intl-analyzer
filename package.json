@@ -23,7 +23,7 @@
     "emblem": "^0.10.0",
     "esm": "^3.2.25",
     "globby": "^9.2.0",
-    "pkg-dir": "^4.1.0"
+    "pkg-dir": "^4.2.0"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
