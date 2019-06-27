@@ -132,7 +132,7 @@ async function analyzeJsFile(content) {
   // parse the JS file
   let ast = BabelParser.parse(content, {
     sourceType: 'module',
-    plugins: ['dynamicImport'],
+    plugins: ['decorators-legacy', 'dynamicImport'],
   });
 
   // find translation keys in the syntax tree
