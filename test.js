@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { run } = require('./index');
+const { run, generateFileList } = require('./index');
 
 let fixtures = fs.readdirSync(`${__dirname}/fixtures/`);
 
@@ -20,4 +20,24 @@ describe('Test Fixtures', () => {
       expect(output).toMatchSnapshot();
     });
   }
+});
+
+describe('generateFileList', () => {
+  const TESTS = [
+    [['a.js'], 'a.js'],
+    [['a.js', 'b.js'], 'a.js and b.js'],
+    [['a.js', 'b.js', 'c.js'], 'a.js, b.js and c.js'],
+    [['a.js', 'b.js', 'd.js', 'c.js'], 'a.js, b.js, c.js and d.js'],
+    [['translations/en.json', 'translations/de.json'], 'de.json and en.json'],
+  ];
+
+  for (let [input, expected] of TESTS) {
+    test(expected, () => {
+      expect(generateFileList(input)).toBe(expected);
+    });
+  }
+
+  test('passing an empty array throws an error', () => {
+    expect(() => generateFileList([])).toThrow('Unexpected empty file list');
+  });
 });
