@@ -7,10 +7,11 @@
   "license": "MIT",
   "author": "Tobias Bieniek <tobias.bieniek@gmail.com>",
   "files": [
+    "bin",
     "index.js"
   ],
   "bin": {
-    "ember-intl-analyzer": "index.js"
+    "ember-intl-analyzer": "bin/cli.js"
   },
   "scripts": {
     "lint": "eslint . --cache"

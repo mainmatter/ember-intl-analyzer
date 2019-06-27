@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 'use strict';
 
 const fs = require('fs');
@@ -257,6 +255,4 @@ function generateFileList(files) {
   }
 }
 
-run().catch(error => {
-  console.error(chalk.red(error.stack));
-});
+module.exports = { run };
