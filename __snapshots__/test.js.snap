@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Fixtures missing-translations 1`] = `
+"[1/4] 🔍  Finding JS and HBS files...
+[2/4] 🔍  Searching for translations keys in JS and HBS files...
+[3/4] ⚙️   Checking for unused translations...
+[4/4] ⚙️   Checking for missing translations...
+
+ 👏  No unused translations were found!
+
+ ⚠️   Found 2 missing translations!
+
+   - js-translation (used in app/controllers/application.js)
+   - hbs-translation (used in app/templates/application.hbs)
+"
+`;
+
+exports[`Test Fixtures no-issues 1`] = `
+"[1/4] 🔍  Finding JS and HBS files...
+[2/4] 🔍  Searching for translations keys in JS and HBS files...
+[3/4] ⚙️   Checking for unused translations...
+[4/4] ⚙️   Checking for missing translations...
+
+ 👏  No unused translations were found!
+
+ 👏  No missing translations were found!
+"
+`;
+
+exports[`Test Fixtures unused-translations 1`] = `
+"[1/4] 🔍  Finding JS and HBS files...
+[2/4] 🔍  Searching for translations keys in JS and HBS files...
+[3/4] ⚙️   Checking for unused translations...
+[4/4] ⚙️   Checking for missing translations...
+
+ ⚠️   Found 2 unused translations!
+
+   - foo (used in de.json and en.json)
+   - extra (used in de.json)
+
+ 👏  No missing translations were found!
+"
+`;

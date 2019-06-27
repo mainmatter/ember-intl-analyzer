@@ -14,7 +14,8 @@
     "ember-intl-analyzer": "bin/cli.js"
   },
   "scripts": {
-    "lint": "eslint . --cache"
+    "lint": "eslint . --cache",
+    "test": "jest"
   },
   "dependencies": {
     "@babel/parser": "^7.4.5",
@@ -31,6 +32,7 @@
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-prettier": "^3.1.0",
+    "jest": "^24.8.0",
     "prettier": "^1.18.2"
   },
   "engines": {
