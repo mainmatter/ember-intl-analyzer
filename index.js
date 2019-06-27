@@ -257,7 +257,7 @@ function generateFileList(files) {
     return `${filesWithoutPrefix[0]} and ${filesWithoutPrefix[1]}`;
   } else {
     let lastFile = filesWithoutPrefix.pop();
-    return `${filesWithoutPrefix.join(',')} and ${lastFile}`;
+    return `${filesWithoutPrefix.join(', ')} and ${lastFile}`;
   }
 }
 
