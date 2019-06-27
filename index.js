@@ -261,4 +261,4 @@ function generateFileList(files) {
   }
 }
 
-module.exports = { run };
+module.exports = { run, generateFileList };
