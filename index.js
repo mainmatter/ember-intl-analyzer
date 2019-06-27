@@ -3,7 +3,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const pkgDir = require('pkg-dir');
 const chalk = require('chalk');
 const globby = require('globby');
 const BabelParser = require('@babel/parser');
@@ -11,11 +10,10 @@ const traverse = require('@babel/traverse').default;
 const Glimmer = require('@glimmer/syntax');
 const Emblem = require('emblem').default;
 
-async function run() {
+async function run(rootDir) {
   const NUM_STEPS = 4;
   const step = num => chalk.dim(`[${num}/${NUM_STEPS}]`);
 
-  let rootDir = await pkgDir();
   let config = readConfig(rootDir);
 
   console.log(`${step(1)} 🔍  Finding JS and HBS files...`);

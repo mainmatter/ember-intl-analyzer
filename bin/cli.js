@@ -3,8 +3,11 @@
 'use strict';
 
 const chalk = require('chalk');
+const pkgDir = require('pkg-dir');
 const { run } = require('../index');
 
-run().catch(error => {
+let rootDir = pkgDir.sync();
+
+run(rootDir).catch(error => {
   console.error(chalk.red(error.stack));
 });
