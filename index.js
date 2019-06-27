@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const chalk = require('chalk');
+const _chalk = require('chalk');
 const globby = require('globby');
 const BabelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
@@ -12,6 +12,12 @@ const Emblem = require('emblem').default;
 
 async function run(rootDir, options = {}) {
   let log = options.log || console.log;
+
+  let chalkOptions = {};
+  if ('color' in options) {
+    chalkOptions.enabled = options.color;
+  }
+  let chalk = new _chalk.constructor(chalkOptions);
 
   const NUM_STEPS = 4;
   const step = num => chalk.dim(`[${num}/${NUM_STEPS}]`);
