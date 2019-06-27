@@ -14,4 +14,10 @@ module.exports = {
     'no-console': 'off',
     'prettier/prettier': 'error',
   },
+  overrides: [{
+    files: ['test.js'],
+    env: {
+      jest: true,
+    },
+  }],
 };

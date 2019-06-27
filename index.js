@@ -1,32 +1,36 @@
-#!/usr/bin/env node
-
 'use strict';
 
 const fs = require('fs');
 const path = require('path');
 
-const pkgDir = require('pkg-dir');
-const chalk = require('chalk');
+const _chalk = require('chalk');
 const globby = require('globby');
 const BabelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const Glimmer = require('@glimmer/syntax');
 const Emblem = require('emblem').default;
 
-async function run() {
+async function run(rootDir, options = {}) {
+  let log = options.log || console.log;
+
+  let chalkOptions = {};
+  if ('color' in options) {
+    chalkOptions.enabled = options.color;
+  }
+  let chalk = new _chalk.constructor(chalkOptions);
+
   const NUM_STEPS = 4;
   const step = num => chalk.dim(`[${num}/${NUM_STEPS}]`);
 
-  let rootDir = await pkgDir();
   let config = readConfig(rootDir);
 
-  console.log(`${step(1)} 🔍  Finding JS and HBS files...`);
+  log(`${step(1)} 🔍  Finding JS and HBS files...`);
   let files = await findAppFiles(rootDir);
 
-  console.log(`${step(2)} 🔍  Searching for translations keys in JS and HBS files...`);
+  log(`${step(2)} 🔍  Searching for translations keys in JS and HBS files...`);
   let usedTranslationKeys = await analyzeFiles(rootDir, files);
 
-  console.log(`${step(3)} ⚙️   Checking for unused translations...`);
+  log(`${step(3)} ⚙️   Checking for unused translations...`);
 
   let translationFiles = await findTranslationFiles(rootDir);
   let existingTranslationKeys = await analyzeTranslationFiles(rootDir, translationFiles);
@@ -38,8 +42,8 @@ async function run() {
     whitelist
   );
 
-  console.log(`${step(4)} ⚙️   Checking for missing translations...`);
-  console.log();
+  log(`${step(4)} ⚙️   Checking for missing translations...`);
+  log();
   let missingTranslations = findDifferenceInTranslations(
     usedTranslationKeys,
     existingTranslationKeys,
@@ -47,23 +51,23 @@ async function run() {
   );
 
   if (unusedTranslations.size === 0) {
-    console.log(' 👏  No unused translations were found!');
+    log(' 👏  No unused translations were found!');
   } else {
-    console.log(` ⚠️   Found ${chalk.bold.yellow(unusedTranslations.size)} unused translations!`);
-    console.log();
+    log(` ⚠️   Found ${chalk.bold.yellow(unusedTranslations.size)} unused translations!`);
+    log();
     for (let [key, files] of unusedTranslations) {
-      console.log(`   - ${key} ${chalk.dim(`(used in ${generateFileList(files)})`)}`);
+      log(`   - ${key} ${chalk.dim(`(used in ${generateFileList(files)})`)}`);
     }
   }
-  console.log();
+  log();
 
   if (missingTranslations.size === 0) {
-    console.log(' 👏  No missing translations were found!');
+    log(' 👏  No missing translations were found!');
   } else {
-    console.log(` ⚠️   Found ${chalk.bold.yellow(missingTranslations.size)} missing translations!`);
-    console.log();
+    log(` ⚠️   Found ${chalk.bold.yellow(missingTranslations.size)} missing translations!`);
+    log();
     for (let [key, files] of missingTranslations) {
-      console.log(`   - ${key} ${chalk.dim(`(used in ${generateFileList(files)})`)}`);
+      log(`   - ${key} ${chalk.dim(`(used in ${generateFileList(files)})`)}`);
     }
   }
 }
@@ -257,6 +261,4 @@ function generateFileList(files) {
   }
 }
 
-run().catch(error => {
-  console.error(chalk.red(error.stack));
-});
+module.exports = { run };
