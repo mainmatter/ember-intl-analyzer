@@ -14,7 +14,7 @@ const Glimmer = require('@glimmer/syntax');
 const Emblem = require('emblem').default;
 
 async function run() {
-  const NUM_STEPS = 3;
+  const NUM_STEPS = 4;
   const step = num => chalk.dim(`[${num}/${NUM_STEPS}]`);
 
   let rootDir = await pkgDir();
@@ -22,26 +22,47 @@ async function run() {
 
   console.log(`${step(1)} 🔍  Finding JS and HBS files...`);
   let files = await findAppFiles(rootDir);
+
   console.log(`${step(2)} 🔍  Searching for translations keys in JS and HBS files...`);
   let usedTranslationKeys = await analyzeFiles(rootDir, files);
+
   console.log(`${step(3)} ⚙️   Checking for unused translations...`);
+
   let translationFiles = await findTranslationFiles(rootDir);
   let existingTranslationKeys = await analyzeTranslationFiles(rootDir, translationFiles);
-
   let whitelist = config.whitelist || [];
-  let unusedTranslations = findUnusedTranslations(
+
+  let unusedTranslations = findDifferenceInTranslations(
+    existingTranslationKeys,
+    usedTranslationKeys,
+    whitelist
+  );
+
+  console.log(`${step(4)} ⚙️   Checking for missing translations...`);
+  console.log();
+  let missingTranslations = findDifferenceInTranslations(
     usedTranslationKeys,
     existingTranslationKeys,
     whitelist
   );
 
-  console.log();
   if (unusedTranslations.size === 0) {
     console.log(' 👏  No unused translations were found!');
   } else {
     console.log(` ⚠️   Found ${chalk.bold.yellow(unusedTranslations.size)} unused translations!`);
     console.log();
     for (let [key, files] of unusedTranslations) {
+      console.log(`   - ${key} ${chalk.dim(`(used in ${generateFileList(files)})`)}`);
+    }
+  }
+  console.log();
+
+  if (missingTranslations.size === 0) {
+    console.log(' 👏  No missing translations were found!');
+  } else {
+    console.log(` ⚠️   Found ${chalk.bold.yellow(missingTranslations.size)} missing translations!`);
+    console.log();
+    for (let [key, files] of missingTranslations) {
       console.log(`   - ${key} ${chalk.dim(`(used in ${generateFileList(files)})`)}`);
     }
   }
@@ -68,13 +89,17 @@ async function findTranslationFiles(cwd) {
 }
 
 async function analyzeFiles(cwd, files) {
-  let allTranslationKeys = new Set();
+  let allTranslationKeys = new Map();
 
   for (let file of files) {
     let translationKeys = await analyzeFile(cwd, file);
 
-    for (let translationKey of translationKeys) {
-      allTranslationKeys.add(translationKey);
+    for (let key of translationKeys) {
+      if (allTranslationKeys.has(key)) {
+        allTranslationKeys.get(key).add(file);
+      } else {
+        allTranslationKeys.set(key, new Set([file]));
+      }
     }
   }
 
@@ -197,16 +222,22 @@ function forEachTranslation(json, callback, prefix = '') {
   }
 }
 
-function findUnusedTranslations(usedTranslationKeys, existingTranslationKeys, whitelist) {
-  let unusedTranslations = new Map();
+// Find all translation keys that appear in translation map A, but not
+// in translation map B
+function findDifferenceInTranslations(mapA, mapB, whitelist) {
+  let missingTranslations = new Map();
 
-  for (let [existingTranslationKey, files] of existingTranslationKeys) {
-    if (usedTranslationKeys.has(existingTranslationKey)) continue;
-    if (whitelist.some(regex => regex.test(existingTranslationKey))) continue;
-    unusedTranslations.set(existingTranslationKey, files);
+  for (let [key, files] of mapA) {
+    const keyTrimmed = key.trim();
+    const isKeyMissing = !mapB.has(keyTrimmed);
+    const isKeyAllowed = !whitelist.some(regex => regex.test(keyTrimmed));
+
+    if (isKeyMissing && isKeyAllowed) {
+      missingTranslations.set(keyTrimmed, files);
+    }
   }
 
-  return unusedTranslations;
+  return missingTranslations;
 }
 
 function generateFileList(files) {
