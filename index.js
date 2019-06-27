@@ -245,9 +245,9 @@ function findDifferenceInTranslations(mapA, mapB, whitelist) {
 }
 
 function generateFileList(files) {
-  let filesWithoutPrefix = Array.from(files).map(file =>
-    file.startsWith('translations/') ? file.substring(13) : file
-  );
+  let filesWithoutPrefix = Array.from(files)
+    .map(file => (file.startsWith('translations/') ? file.substring(13) : file))
+    .sort();
 
   if (filesWithoutPrefix.length === 0) {
     throw new Error('Unexpected empty file list');
