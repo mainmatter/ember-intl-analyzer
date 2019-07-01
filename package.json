@@ -25,7 +25,7 @@
     "chalk": "^2.4.2",
     "emblem": "^0.10.0",
     "esm": "^3.2.25",
-    "globby": "^9.2.0",
+    "globby": "^10.0.0",
     "pkg-dir": "^4.2.0"
   },
   "devDependencies": {
