@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@babel/parser": "^7.4.5",
-    "@babel/traverse": "^7.4.5",
+    "@babel/traverse": "^7.5.0",
     "@glimmer/syntax": "^0.41.3",
     "chalk": "^2.4.2",
     "emblem": "^0.10.0",
