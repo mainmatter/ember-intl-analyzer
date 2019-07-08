@@ -1815,10 +1815,10 @@ globals@^11.1.0, globals@^11.7.0:
   resolved "https://registry.yarnpkg.com/globals/-/globals-11.11.0.tgz#dcf93757fa2de5486fbeed7118538adf789e9c2e"
   integrity sha512-WHq43gS+6ufNOEqlrDBxVEbb8ntfXrfAUU2ZOpCxrBdGKW3gyv8mCxAfIBD0DroPKGrJ2eSsXsLtY9MPntsyTw==
 
-globby@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/globby/-/globby-10.0.0.tgz#abfcd0630037ae174a88590132c2f6804e291072"
-  integrity sha512-3LifW9M4joGZasyYPz2A1U74zbC/45fvpXUvO/9KbSa+VV0aGZarWkfdgKyR9sExNP0t0x0ss/UMJpNpcaTspw==
+globby@^10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/globby/-/globby-10.0.1.tgz#4782c34cb75dd683351335c5829cc3420e606b22"
+  integrity sha512-sSs4inE1FB2YQiymcmTv6NWENryABjUNPeWhOvmn4SjtKybglsyPZxFB3U1/+L1bYi0rNZDqCLlHyLYDl1Pq5A==
   dependencies:
     "@types/glob" "^7.1.1"
     array-union "^2.1.0"
