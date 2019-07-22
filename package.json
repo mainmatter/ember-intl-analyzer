@@ -23,7 +23,7 @@
     "@babel/traverse": "^7.5.5",
     "@glimmer/syntax": "^0.41.4",
     "chalk": "^2.4.2",
-    "emblem": "^0.10.0",
+    "emblem": "^0.12.1",
     "esm": "^3.2.25",
     "globby": "^10.0.1",
     "pkg-dir": "^4.2.0"
