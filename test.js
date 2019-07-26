@@ -5,6 +5,7 @@ let fixtures = fs.readdirSync(`${__dirname}/fixtures/`);
 
 describe('Test Fixtures', () => {
   let output;
+  let fixturesWithErrors = ['emblem', 'missing-translations', 'unused-translations'];
 
   beforeEach(() => {
     output = '';
@@ -16,7 +17,11 @@ describe('Test Fixtures', () => {
 
   for (let fixture of fixtures) {
     test(fixture, async () => {
-      await run(`${__dirname}/fixtures/${fixture}`, { log, color: false });
+      let returnValue = await run(`${__dirname}/fixtures/${fixture}`, { log, color: false });
+
+      let expectedReturnValue = fixturesWithErrors.includes(fixture) ? 1 : 0;
+
+      expect(returnValue).toEqual(expectedReturnValue);
       expect(output).toMatchSnapshot();
     });
   }
