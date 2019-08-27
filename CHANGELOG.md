@@ -1,5 +1,18 @@
 # Changelog
 
+## v2.0.0 (2019-08-27)
+
+#### :boom: Breaking Change
+* [#51](https://github.com/simplabs/ember-intl-analyzer/pull/51) Use non-zero exit code when problems are found ([@jfelchner](https://github.com/jfelchner))
+
+#### :rocket: Enhancement
+* [#58](https://github.com/simplabs/ember-intl-analyzer/pull/58) Adds YAML support ([@Duder-onomy](https://github.com/Duder-onomy))
+
+#### Committers: 2
+- Greg Larrenaga ([@Duder-onomy](https://github.com/Duder-onomy))
+- Jeff Felchner ([@jfelchner](https://github.com/jfelchner))
+
+
 ## v1.1.0 (2019-06-27)
 
 #### :rocket: Enhancement
