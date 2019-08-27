@@ -9,6 +9,7 @@ const BabelParser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const Glimmer = require('@glimmer/syntax');
 const Emblem = require('emblem').default;
+const YAML = require('yaml');
 
 async function run(rootDir, options = {}) {
   let log = options.log || console.log;
@@ -93,7 +94,9 @@ async function findAppFiles(cwd) {
 }
 
 async function findTranslationFiles(cwd) {
-  return globby(['translations/**/*.json'], { cwd });
+  return globby(['translations/**/*.json', 'translations/**/*.yaml', 'translations/**/*.yml'], {
+    cwd,
+  });
 }
 
 async function analyzeFiles(cwd, files) {
@@ -201,8 +204,8 @@ async function analyzeTranslationFiles(cwd, files) {
 
   for (let file of files) {
     let content = fs.readFileSync(`${cwd}/${file}`, 'utf8');
-    let json = JSON.parse(content);
-    forEachTranslation(json, key => {
+    let translations = YAML.parse(content); // json is valid yaml
+    forEachTranslation(translations, key => {
       if (!existingTranslationKeys.has(key)) {
         existingTranslationKeys.set(key, new Set());
       }
