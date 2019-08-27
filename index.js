@@ -70,6 +70,10 @@ async function run(rootDir, options = {}) {
       log(`   - ${key} ${chalk.dim(`(used in ${generateFileList(files)})`)}`);
     }
   }
+
+  let totalErrors = missingTranslations.size + unusedTranslations.size;
+
+  return totalErrors > 0 ? 1 : 0;
 }
 
 function readConfig(cwd) {

@@ -8,6 +8,6 @@ const { run } = require('../index');
 
 let rootDir = pkgDir.sync();
 
-run(rootDir).catch(error => {
+process.exitCode = run(rootDir).catch(error => {
   console.error(chalk.red(error.stack));
 });
