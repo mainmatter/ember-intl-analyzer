@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.0.1 (2019-08-29)
+
+#### :bug: Bug Fix
+* [#59](https://github.com/simplabs/ember-intl-analyzer/pull/59) Fix process exit code assignment ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 1
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+
+
 ## v2.0.0 (2019-08-27)
 
 #### :boom: Breaking Change
