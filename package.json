@@ -19,7 +19,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babel/parser": "^7.7.0",
+    "@babel/parser": "^7.7.3",
     "@babel/traverse": "^7.7.2",
     "@glimmer/syntax": "^0.43.0",
     "chalk": "^2.4.2",
