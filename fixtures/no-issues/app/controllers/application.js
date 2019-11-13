@@ -1,7 +1,9 @@
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
 
-export default Controller.extend({
-  foo: computed('intl.locale', function() {
+export default class ApplicationController extends Controller {
+  @tracked foo;
+  foo() {
     return this.intl.t('js-translation');
-  }),
-});
+  }
+}
