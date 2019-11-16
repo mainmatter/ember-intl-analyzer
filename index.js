@@ -100,7 +100,7 @@ function readIntlConfig(cwd) {
     if (config) {
       if (typeof config === 'function') {
         config = config();
-      } else if (config.hasOwnProperty('default')) {
+      } else if (Object.prototype.hasOwnProperty.call(config, 'default')) {
         config = config.default;
       }
     }
