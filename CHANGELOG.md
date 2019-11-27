@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.1.0 (2019-11-27)
+
+#### :rocket: Enhancement
+* [#94](https://github.com/simplabs/ember-intl-analyzer/pull/94) Add support for files with class properties ([@jmonster](https://github.com/jmonster))
+
+#### Committers: 1
+- Johnny Domino ([@jmonster](https://github.com/jmonster))
+
+
 ## v2.0.1 (2019-08-29)
 
 #### :bug: Bug Fix
