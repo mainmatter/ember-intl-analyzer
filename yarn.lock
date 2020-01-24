@@ -198,27 +198,27 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@glimmer/interfaces@^0.46.0":
-  version "0.46.0"
-  resolved "https://registry.yarnpkg.com/@glimmer/interfaces/-/interfaces-0.46.0.tgz#977a16a8396ea7124f4f5f14391136baa22f50a9"
-  integrity sha512-jcf5Xlgvdp9yurkLCoN5wwTOcyYEpe+eakpf2lP8PQ9DHJX33uAE3vjIm+aP0fY95eCnvDWGTU63FKZTsJMZ1A==
+"@glimmer/interfaces@^0.47.0":
+  version "0.47.0"
+  resolved "https://registry.yarnpkg.com/@glimmer/interfaces/-/interfaces-0.47.0.tgz#2ac3c624fc9e39bb124f056108ec396ba9d62dcc"
+  integrity sha512-inLQGO0037SDohK4um6zDbdc195DpBOVPUQiycT1yQT+hTcOkArii0X8K0XBIJQSxAwx3xTkRPcCQZTml1U8vA==
   dependencies:
     "@simple-dom/interface" "^1.4.0"
 
-"@glimmer/syntax@^0.46.0":
-  version "0.46.0"
-  resolved "https://registry.yarnpkg.com/@glimmer/syntax/-/syntax-0.46.0.tgz#e80224219f7c42d878b94c9a2c1eb3a687e49ec7"
-  integrity sha512-gYGTJa7rYYq3+c91J4wAtOSt4G23EJD4D8Wo/GbAba4Hf8AD+C9U52RRHXVWVOFSaH6fsc3UCAh55aKjaN32VA==
+"@glimmer/syntax@^0.47.0":
+  version "0.47.0"
+  resolved "https://registry.yarnpkg.com/@glimmer/syntax/-/syntax-0.47.0.tgz#ef4c9b97ec5586a84260e80ca4f2c9e53ab97ed5"
+  integrity sha512-cZF22xKsDbgx3FOwptVkXa9FHO9X9O8YYPwGlU8OXHfcrnhwZIrsIDC3LA1nOgkG9MgH1C+gPnpAOFogfrLIVg==
   dependencies:
-    "@glimmer/interfaces" "^0.46.0"
-    "@glimmer/util" "^0.46.0"
+    "@glimmer/interfaces" "^0.47.0"
+    "@glimmer/util" "^0.47.0"
     handlebars "^4.5.1"
     simple-html-tokenizer "^0.5.8"
 
-"@glimmer/util@^0.46.0":
-  version "0.46.0"
-  resolved "https://registry.yarnpkg.com/@glimmer/util/-/util-0.46.0.tgz#7157f1c5d6f55b66873f5e2621e8c4854f7fdb91"
-  integrity sha512-MprttA+DxXmJK5Bdkz/NP2kFSv9+ljhQCey1xwby0m9QwoXOc5P7erDVt0P9QlV2kQJRcpGVzDGAywZotJlc3Q==
+"@glimmer/util@^0.47.0":
+  version "0.47.0"
+  resolved "https://registry.yarnpkg.com/@glimmer/util/-/util-0.47.0.tgz#0dcf2ebfd225c9d740971fa1c9e5bfac4941c355"
+  integrity sha512-GZzwpaSBAoo9t4zMvNugHjE5tOYy6qWNF/Ce++n43A7c1M2Fmt0yfAdB1NHtqPRHU3SYFh3zVR32g87Ft92cnA==
   dependencies:
     "@simple-dom/interface" "^1.4.0"
 
