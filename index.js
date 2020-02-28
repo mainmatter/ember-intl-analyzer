@@ -15,10 +15,10 @@ async function run(rootDir, options = {}) {
   let log = options.log || console.log;
 
   let chalkOptions = {};
-  if ('color' in options) {
-    chalkOptions.enabled = options.color;
+  if (options.color === false) {
+    chalkOptions.level = 0;
   }
-  let chalk = new _chalk.constructor(chalkOptions);
+  let chalk = new _chalk.Instance(chalkOptions);
 
   const NUM_STEPS = 4;
   const step = num => chalk.dim(`[${num}/${NUM_STEPS}]`);
