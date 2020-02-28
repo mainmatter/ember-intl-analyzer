@@ -22,7 +22,7 @@
     "@babel/parser": "^7.8.0",
     "@babel/traverse": "^7.8.6",
     "@glimmer/syntax": "^0.47.9",
-    "chalk": "^2.4.2",
+    "chalk": "^3.0.0",
     "emblem": "^0.12.1",
     "esm": "^3.2.25",
     "globby": "^11.0.0",
