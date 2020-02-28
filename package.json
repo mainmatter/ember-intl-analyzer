@@ -35,7 +35,7 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "jest": "^24.9.0",
-    "lerna-changelog": "^0.8.3",
+    "lerna-changelog": "^1.0.0",
     "prettier": "^1.19.1"
   },
   "engines": {
