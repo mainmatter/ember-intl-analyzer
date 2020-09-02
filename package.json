@@ -21,7 +21,7 @@
   "dependencies": {
     "@babel/parser": "^7.11.4",
     "@babel/traverse": "^7.11.5",
-    "@glimmer/syntax": "^0.60.0",
+    "@glimmer/syntax": "^0.61.1",
     "chalk": "^4.1.0",
     "emblem": "^0.12.1",
     "esm": "^3.2.25",
