@@ -82,8 +82,8 @@ function readConfig(cwd) {
 
   let config = {};
   if (fs.existsSync(configPath)) {
-    let requireESM = require('esm')(module);
-    config = requireESM(configPath).default;
+    let requireESM = require('esm')(module, { cjs: { dedefault: true } });
+    config = requireESM(configPath);
   }
 
   return config;
