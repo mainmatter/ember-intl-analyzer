@@ -1,5 +1,19 @@
 # Changelog
 
+## v3.0.0 (2020-10-14)
+
+#### :boom: Breaking Change
+* [#135](https://github.com/simplabs/ember-intl-analyzer/pull/135) Drop support for Node 8 ([@Turbo87](https://github.com/Turbo87))
+
+#### :rocket: Enhancement
+* [#257](https://github.com/simplabs/ember-intl-analyzer/pull/257) Fix importing config file as CJS module ([@bertdeblock](https://github.com/bertdeblock))
+
+#### Committers: 3
+- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
+- Patsy Issa ([@patsy-issa](https://github.com/patsy-issa))
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+
+
 ## v2.1.0 (2019-11-27)
 
 #### :rocket: Enhancement
