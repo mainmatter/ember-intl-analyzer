@@ -356,30 +356,30 @@
   resolved "https://registry.yarnpkg.com/@glimmer/env/-/env-0.1.7.tgz#fd2d2b55a9029c6b37a6c935e8c8871ae70dfa07"
   integrity sha1-/S0rVakCnGs3psk16MiHGucN+gc=
 
-"@glimmer/interfaces@0.62.4":
-  version "0.62.4"
-  resolved "https://registry.yarnpkg.com/@glimmer/interfaces/-/interfaces-0.62.4.tgz#e9027d637a0ea80522f29a241aa819e686c623ae"
-  integrity sha512-x3L9YUL17fRgxFrnUvUYTxgnLoh8BipdqkweUEVA5qdIa1dcidUzHUFtWgRiWZ+dKCJBtxh2ubEwjOfgobpMuQ==
+"@glimmer/interfaces@0.63.4":
+  version "0.63.4"
+  resolved "https://registry.yarnpkg.com/@glimmer/interfaces/-/interfaces-0.63.4.tgz#b375b4346b3d67a17a45825a9c90367d2bf167d4"
+  integrity sha512-XpKKJVqVE9JUcAqEHUu0lwJQZnv3gHPZ93o/xDdyUqnSokipeToHJzehRrhIkknSaiKKyu624fvk0dakQaS5ow==
   dependencies:
     "@simple-dom/interface" "^1.4.0"
 
-"@glimmer/syntax@^0.62.4":
-  version "0.62.4"
-  resolved "https://registry.yarnpkg.com/@glimmer/syntax/-/syntax-0.62.4.tgz#9d5ec15584fed85d807762992a1879fe7fe15ae8"
-  integrity sha512-c/c+tqv1Ob+IaiVYe3DfHsLQwk/DZ3RA14gVcrE8Bbqrr7RtmjdKPfgNswiQhx7b+1ygcUhvYUfxfI8nCVswIw==
+"@glimmer/syntax@^0.63.4":
+  version "0.63.4"
+  resolved "https://registry.yarnpkg.com/@glimmer/syntax/-/syntax-0.63.4.tgz#87598c50b097ff6beea4e1611549577050d922c5"
+  integrity sha512-ndt2ujQHe8bnwv/x8JpAEBqzWvXClqnevNqlAyywTZR4/ur0SYayFRdN9kI3qzRzX6Psc7lxCAqwp8QyKpUbiQ==
   dependencies:
-    "@glimmer/interfaces" "0.62.4"
-    "@glimmer/util" "0.62.4"
+    "@glimmer/interfaces" "0.63.4"
+    "@glimmer/util" "0.63.4"
     "@handlebars/parser" "^1.1.0"
     simple-html-tokenizer "^0.5.10"
 
-"@glimmer/util@0.62.4":
-  version "0.62.4"
-  resolved "https://registry.yarnpkg.com/@glimmer/util/-/util-0.62.4.tgz#2e33dd2a8e3e81f5ffc8325fdc9bebb0e274c421"
-  integrity sha512-7x04I4mQpxveAoEbpFfXFFkYpuJoATHuGdwPjgcQc0nSjAkGDkzIMlRN3stgZAz32eSVj9n7SOXHVtHEhw3cCg==
+"@glimmer/util@0.63.4":
+  version "0.63.4"
+  resolved "https://registry.yarnpkg.com/@glimmer/util/-/util-0.63.4.tgz#e051a5b03eb5a04a58a9d393fcd37f25b533c2ab"
+  integrity sha512-D102O0wRdPn6KOHFZ3+GAKj+Wxaou0KMxePspu5lPD9bQYGd7z+epqpRxpYGb5vbZCg8nTT28+qUU5yMh6NpCA==
   dependencies:
     "@glimmer/env" "0.1.7"
-    "@glimmer/interfaces" "0.62.4"
+    "@glimmer/interfaces" "0.63.4"
     "@simple-dom/interface" "^1.4.0"
 
 "@handlebars/parser@^1.1.0":
