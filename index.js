@@ -154,9 +154,16 @@ async function analyzeJsFile(content) {
       if (node.arguments.length === 0) return;
 
       let firstParam = node.arguments[0];
-      if (firstParam.type !== 'StringLiteral') return;
-
-      translationKeys.add(firstParam.value);
+      if (firstParam.type === 'StringLiteral') {
+        translationKeys.add(firstParam.value);
+      } else if (firstParam.type === 'ConditionalExpression') {
+        if (firstParam.alternate.type === 'StringLiteral') {
+          translationKeys.add(firstParam.alternate.value);
+        }
+        if (firstParam.consequent.type === 'StringLiteral') {
+          translationKeys.add(firstParam.consequent.value);
+        }
+      }
     },
   });
 
@@ -178,9 +185,16 @@ async function analyzeHbsFile(content) {
       if (node.params.length === 0) return;
 
       let firstParam = node.params[0];
-      if (firstParam.type !== 'StringLiteral') return;
-
-      translationKeys.add(firstParam.value);
+      if (firstParam.type === 'StringLiteral') {
+        translationKeys.add(firstParam.value);
+      } else if (firstParam.type === 'SubExpression' && firstParam.path.original === 'if') {
+        if (firstParam.params[1].type === 'StringLiteral') {
+          translationKeys.add(firstParam.params[1].value);
+        }
+        if (firstParam.params[2].type === 'StringLiteral') {
+          translationKeys.add(firstParam.params[2].value);
+        }
+      }
     },
 
     // handle {{some-component foo=(t "bar")}} case
@@ -190,9 +204,16 @@ async function analyzeHbsFile(content) {
       if (node.params.length === 0) return;
 
       let firstParam = node.params[0];
-      if (firstParam.type !== 'StringLiteral') return;
-
-      translationKeys.add(firstParam.value);
+      if (firstParam.type === 'StringLiteral') {
+        translationKeys.add(firstParam.value);
+      } else if (firstParam.type === 'SubExpression' && firstParam.path.original === 'if') {
+        if (firstParam.params[1].type === 'StringLiteral') {
+          translationKeys.add(firstParam.params[1].value);
+        }
+        if (firstParam.params[2].type === 'StringLiteral') {
+          translationKeys.add(firstParam.params[2].value);
+        }
+      }
     },
   });
 
