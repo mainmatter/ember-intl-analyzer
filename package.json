@@ -27,7 +27,7 @@
     "esm": "^3.2.25",
     "globby": "^11.0.2",
     "pkg-dir": "^5.0.0",
-    "yaml": "^1.10.0"
+    "yaml": "^1.10.2"
   },
   "devDependencies": {
     "eslint": "^7.21.0",
