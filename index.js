@@ -13,6 +13,8 @@ const YAML = require('yaml');
 
 async function run(rootDir, options = {}) {
   let log = options.log || console.log;
+  let writeToFile = options.writeToFile || fs.writeFileSync;
+  let shouldFix = options.fix || false;
 
   let chalkOptions = {};
   if (options.color === false) {
@@ -55,6 +57,9 @@ async function run(rootDir, options = {}) {
     log(' 👏  No unused translations were found!');
   } else {
     log(` ⚠️   Found ${chalk.bold.yellow(unusedTranslations.size)} unused translations!`);
+    if (!shouldFix) {
+      log('     You can use --fix to remove all unused translations.');
+    }
     log();
     for (let [key, files] of unusedTranslations) {
       log(`   - ${key} ${chalk.dim(`(used in ${generateFileList(files)})`)}`);
@@ -74,7 +79,13 @@ async function run(rootDir, options = {}) {
 
   let totalErrors = missingTranslations.size + unusedTranslations.size;
 
-  return totalErrors > 0 ? 1 : 0;
+  if (shouldFix) {
+    removeUnusedTranslations(writeToFile, rootDir, translationFiles, unusedTranslations);
+    log();
+    log(' 👏 All unused translations were removed');
+  }
+
+  return totalErrors > 0 && !shouldFix ? 1 : 0;
 }
 
 function readConfig(cwd) {
@@ -287,6 +298,63 @@ function generateFileList(files) {
     let lastFile = filesWithoutPrefix.pop();
     return `${filesWithoutPrefix.join(', ')} and ${lastFile}`;
   }
+}
+
+function removeUnusedTranslations(writeToFile, cwd, files, unusedTranslations) {
+  for (let file of files) {
+    let translationsToRemove = [];
+    for (let [key, files] of unusedTranslations) {
+      if (files.has(file)) {
+        translationsToRemove.push(key);
+      }
+    }
+    let content = fs.readFileSync(`${cwd}/${file}`, 'utf8');
+    let translations = YAML.parse(content); // json is valid yaml
+    translationsToRemove.forEach(translation => {
+      if (translations[translation]) {
+        delete translations[translation];
+      } else {
+        deleteNestedTranslation(translations, translation, true);
+      }
+    });
+    let updatedTranslations;
+    if (file.includes('.json')) {
+      updatedTranslations = JSON.stringify(translations, null, 2);
+    }
+    if (file.includes('.yaml') || file.includes('.yml')) {
+      updatedTranslations = YAML.stringify(translations);
+    }
+
+    writeToFile(`${cwd}/${file}`, updatedTranslations, 'utf-8');
+  }
+}
+
+function deleteNestedTranslation(file, translationKey, isFullPath = false) {
+  let objectKeys = translationKey.split('.');
+  let attributeKey = objectKeys[objectKeys.length - 1];
+
+  let translationParentKeys = objectKeys.slice(0, -1);
+  let translationParent = translationParentKeys.length
+    ? getNestedAttribute(file, translationParentKeys)
+    : file;
+  //Check if this object has another translations if not delete the key.
+  if (Object.keys(translationParent[attributeKey]).length === 0 || isFullPath) {
+    delete translationParent[attributeKey];
+    if (objectKeys.length) {
+      let parentKey = translationParentKeys.join('.');
+      //continue to travel up parents to remove empty translation key objects.
+      deleteNestedTranslation(file, parentKey);
+    }
+  }
+}
+
+function getNestedAttribute(parent, keys) {
+  let attribute = parent[keys[0]];
+  if (keys.length > 1) {
+    let childKeys = keys.slice(1);
+    return getNestedAttribute(attribute, childKeys);
+  }
+  return attribute;
 }
 
 module.exports = { run, generateFileList };

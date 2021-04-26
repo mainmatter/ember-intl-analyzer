@@ -8,7 +8,7 @@ const { run } = require('../index');
 
 let rootDir = pkgDir.sync();
 
-run(rootDir)
+run(rootDir, { fix: process.argv.includes('--fix') })
   .then(exitCode => {
     process.exitCode = exitCode;
   })
