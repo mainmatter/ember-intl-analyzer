@@ -1,0 +1,6 @@
+{
+  "hbs-translation": "HBS!",
+  "js-translation": "JS!",
+  "foo": "bar",
+  "foo.bar.unnested": "unnested key"
+}

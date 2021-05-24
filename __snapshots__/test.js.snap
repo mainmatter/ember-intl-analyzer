@@ -12,6 +12,22 @@ exports[`Test Fixtures decorators 1`] = `
 "
 `;
 
+exports[`Test Fixtures decorators 2`] = `Map {}`;
+
+exports[`Test Fixtures embedded-conditionals 1`] = `
+"[1/4] 🔍  Finding JS and HBS files...
+[2/4] 🔍  Searching for translations keys in JS and HBS files...
+[3/4] ⚙️   Checking for unused translations...
+[4/4] ⚙️   Checking for missing translations...
+
+ 👏  No unused translations were found!
+
+ 👏  No missing translations were found!
+"
+`;
+
+exports[`Test Fixtures embedded-conditionals 2`] = `Map {}`;
+
 exports[`Test Fixtures emblem 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
@@ -25,6 +41,8 @@ exports[`Test Fixtures emblem 1`] = `
    - emblem-translation (used in app/templates/application.emblem)
 "
 `;
+
+exports[`Test Fixtures emblem 2`] = `Map {}`;
 
 exports[`Test Fixtures missing-translations 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
@@ -41,6 +59,8 @@ exports[`Test Fixtures missing-translations 1`] = `
 "
 `;
 
+exports[`Test Fixtures missing-translations 2`] = `Map {}`;
+
 exports[`Test Fixtures no-issues 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
@@ -53,6 +73,76 @@ exports[`Test Fixtures no-issues 1`] = `
 "
 `;
 
+exports[`Test Fixtures no-issues 2`] = `Map {}`;
+
+exports[`Test Fixtures remove-unused-translations 1`] = `
+"[1/4] 🔍  Finding JS and HBS files...
+[2/4] 🔍  Searching for translations keys in JS and HBS files...
+[3/4] ⚙️   Checking for unused translations...
+[4/4] ⚙️   Checking for missing translations...
+
+ ⚠️   Found 3 unused translations!
+
+   - foo (used in de.json and en.json)
+   - extra (used in de.json)
+   - foo.bar.unnested (used in de.json and en.json)
+
+ 👏  No missing translations were found!
+
+ 👏 All unused translations were removed
+"
+`;
+
+exports[`Test Fixtures remove-unused-translations 2`] = `
+Map {
+  "translations/de.json" => "{
+  \\"hbs-translation\\": \\"Lenkstage\\",
+  \\"js-translation\\": \\"Affentheater\\"
+}",
+  "translations/en.json" => "{
+  \\"hbs-translation\\": \\"HBS!\\",
+  \\"js-translation\\": \\"JS!\\"
+}",
+}
+`;
+
+exports[`Test Fixtures remove-unused-translations-nested 1`] = `
+"[1/4] 🔍  Finding JS and HBS files...
+[2/4] 🔍  Searching for translations keys in JS and HBS files...
+[3/4] ⚙️   Checking for unused translations...
+[4/4] ⚙️   Checking for missing translations...
+
+ ⚠️   Found 3 unused translations!
+
+   - foo (used in de.json and en.json)
+   - extra (used in de.json)
+   - parent.child.unusedKey (used in de.json and en.json)
+
+ 👏  No missing translations were found!
+
+ 👏 All unused translations were removed
+"
+`;
+
+exports[`Test Fixtures remove-unused-translations-nested 2`] = `
+Map {
+  "translations/de.json" => "{
+  \\"hbs-translation\\": \\"Lenkstage\\",
+  \\"js-translation\\": \\"Affentheater\\",
+  \\"parent\\": {
+    \\"secondChild\\": \\"usedKey\\"
+  }
+}",
+  "translations/en.json" => "{
+  \\"hbs-translation\\": \\"HBS!\\",
+  \\"js-translation\\": \\"JS!\\",
+  \\"parent\\": {
+    \\"secondChild\\": \\"usedKey\\"
+  }
+}",
+}
+`;
+
 exports[`Test Fixtures unused-translations 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
@@ -60,6 +150,7 @@ exports[`Test Fixtures unused-translations 1`] = `
 [4/4] ⚙️   Checking for missing translations...
 
  ⚠️   Found 2 unused translations!
+     You can use --fix to remove all unused translations.
 
    - foo (used in de.json and en.json)
    - extra (used in de.json)
@@ -67,6 +158,8 @@ exports[`Test Fixtures unused-translations 1`] = `
  👏  No missing translations were found!
 "
 `;
+
+exports[`Test Fixtures unused-translations 2`] = `Map {}`;
 
 exports[`Test Fixtures yaml-translations 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
@@ -80,14 +173,4 @@ exports[`Test Fixtures yaml-translations 1`] = `
 "
 `;
 
-exports[`Test Fixtures embedded-conditionals 1`] = `
-"[1/4] 🔍  Finding JS and HBS files...
-[2/4] 🔍  Searching for translations keys in JS and HBS files...
-[3/4] ⚙️   Checking for unused translations...
-[4/4] ⚙️   Checking for missing translations...
-
- 👏  No unused translations were found!
-
- 👏  No missing translations were found!
-"
-`;
+exports[`Test Fixtures yaml-translations 2`] = `Map {}`;
