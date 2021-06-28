@@ -1,0 +1,11 @@
+{
+  "hbs-translation": "HBS!",
+  "js-translation": "JS!",
+  "foo": "bar",
+  "parent": {
+    "child": {
+      "unusedKey": "unused Key",
+    },
+    "secondChild": "usedKey"
+  }
+}

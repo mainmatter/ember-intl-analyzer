@@ -5,24 +5,37 @@ let fixtures = fs.readdirSync(`${__dirname}/fixtures/`);
 
 describe('Test Fixtures', () => {
   let output;
+  let writtenFiles;
   let fixturesWithErrors = ['emblem', 'missing-translations', 'unused-translations'];
+  let fixturesWithFix = ['remove-unused-translations', 'remove-unused-translations-nested'];
 
   beforeEach(() => {
     output = '';
+    writtenFiles = new Map();
   });
 
   function log(str = '') {
     output += `${str}\n`;
   }
+  function writeToFile(filePath, updatedTranslations) {
+    let fileName = filePath.split('/').slice(-2).join('/');
+    writtenFiles.set(fileName, updatedTranslations);
+  }
 
   for (let fixture of fixtures) {
     test(fixture, async () => {
-      let returnValue = await run(`${__dirname}/fixtures/${fixture}`, { log, color: false });
+      let returnValue = await run(`${__dirname}/fixtures/${fixture}`, {
+        log,
+        fix: fixturesWithFix.includes(fixture),
+        color: false,
+        writeToFile,
+      });
 
       let expectedReturnValue = fixturesWithErrors.includes(fixture) ? 1 : 0;
 
       expect(returnValue).toEqual(expectedReturnValue);
       expect(output).toMatchSnapshot();
+      expect(writtenFiles).toMatchSnapshot();
     });
   }
 });

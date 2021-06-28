@@ -43,6 +43,10 @@ To prevent that from happening you can configure a `whitelist`, which accepts an
 array of regular expressions that will be checked when looking for unused
 translations.
 
+### `--fix`
+If your application has a lot of unused translations you can run the command with
+the `--fix` to remove them. Remember to double check your translations as dynamic
+translations need to be whitelisted or they will be removed!
 
 Caveats
 ------------------------------------------------------------------------------

@@ -1,0 +1,7 @@
+{
+  "hbs-translation": "Lenkstage",
+  "js-translation": "Affentheater",
+  "foo": "BARR!",
+  "extra": "drei",
+  "foo.bar.unnested": "unnested key"
+}

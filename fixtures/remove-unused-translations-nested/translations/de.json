@@ -1,0 +1,12 @@
+{
+  "hbs-translation": "Lenkstage",
+  "js-translation": "Affentheater",
+  "foo": "BARR!",
+  "extra": "drei",
+  "parent": {
+    "child": {
+      "unusedKey": "unused Key",
+    },
+    "secondChild": "usedKey"
+  }
+}
