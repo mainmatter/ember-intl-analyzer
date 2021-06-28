@@ -1,6 +1,6 @@
 {
   "name": "ember-intl-analyzer",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Find unused translations in your Ember.js projects",
   "homepage": "https://github.com/simplabs/ember-intl-analyzer",
   "repository": "git@github.com:simplabs/ember-intl-analyzer.git",

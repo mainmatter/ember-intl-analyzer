@@ -1,5 +1,20 @@
 # Changelog
 
+## v3.1.0 (2021-06-28)
+
+#### :rocket: Enhancement
+* [#367](https://github.com/simplabs/ember-intl-analyzer/pull/367) Add `--fix` CLI option ([@Mikek2252](https://github.com/Mikek2252))
+* [#320](https://github.com/simplabs/ember-intl-analyzer/pull/320) Add support for basic conditionals in the t helper ([@Mikek2252](https://github.com/Mikek2252))
+
+#### :house: Internal
+* [#369](https://github.com/simplabs/ember-intl-analyzer/pull/369) Replace TravisCI with GitHub Actions ([@Turbo87](https://github.com/Turbo87))
+
+#### Committers: 3
+- Michael Kerr ([@Mikek2252](https://github.com/Mikek2252))
+- Tobias Bieniek ([@Turbo87](https://github.com/Turbo87))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
+
 ## v3.0.0 (2020-10-14)
 
 #### :boom: Breaking Change
