@@ -7,5 +7,10 @@
       "unusedKey": "unused Key",
     },
     "secondChild": "usedKey"
+  },
+  "unusedParent": {
+    "unusedChild": {
+      "unusedKey": "unused Key",
+    }
   }
 }

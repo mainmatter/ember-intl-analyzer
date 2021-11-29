@@ -340,7 +340,7 @@ function deleteNestedTranslation(file, translationKey, isFullPath = false) {
   //Check if this object has another translations if not delete the key.
   if (Object.keys(translationParent[attributeKey]).length === 0 || isFullPath) {
     delete translationParent[attributeKey];
-    if (objectKeys.length) {
+    if (objectKeys.length > 0 && translationParentKeys.length > 0) {
       let parentKey = translationParentKeys.join('.');
       //continue to travel up parents to remove empty translation key objects.
       deleteNestedTranslation(file, parentKey);
