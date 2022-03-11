@@ -112,11 +112,12 @@ exports[`Test Fixtures remove-unused-translations-nested 1`] = `
 [3/4] ⚙️   Checking for unused translations...
 [4/4] ⚙️   Checking for missing translations...
 
- ⚠️   Found 3 unused translations!
+ ⚠️   Found 4 unused translations!
 
    - foo (used in de.json and en.json)
    - extra (used in de.json)
    - parent.child.unusedKey (used in de.json and en.json)
+   - unusedParent.unusedChild.unusedKey (used in de.json and en.json)
 
  👏  No missing translations were found!
 
