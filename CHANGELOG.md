@@ -1,5 +1,13 @@
 # Changelog
 
+## v3.1.1 (2022-03-11)
+
+#### :bug: Bug Fix
+* [#447](https://github.com/simplabs/ember-intl-analyzer/pull/447) Add additional guard to check if at the top of the parent tree and tests ([@Mikek2252](https://github.com/Mikek2252))
+
+#### Committers: 1
+- Michael Kerr ([@Mikek2252](https://github.com/Mikek2252))
+
 ## v3.1.0 (2021-06-28)
 
 #### :rocket: Enhancement
