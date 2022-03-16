@@ -6,7 +6,12 @@ let fixtures = fs.readdirSync(`${__dirname}/fixtures/`);
 describe('Test Fixtures', () => {
   let output;
   let writtenFiles;
-  let fixturesWithErrors = ['emblem', 'missing-translations', 'unused-translations'];
+  let fixturesWithErrors = [
+    'emblem',
+    'missing-translations',
+    'unused-translations',
+    'in-repo-translations',
+  ];
   let fixturesWithFix = ['remove-unused-translations', 'remove-unused-translations-nested'];
 
   beforeEach(() => {

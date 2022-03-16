@@ -1,0 +1,8 @@
+{
+  "name": "in-repo-translations",
+  "ember-addon": {
+    "paths": [
+      "lib/in-repo-addon"
+    ]
+  }
+}

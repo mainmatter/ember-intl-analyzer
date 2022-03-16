@@ -1,0 +1,9 @@
+in-repo-addon:
+  addon:
+    hbs-translation: HBS in in-repo addon addon
+    js-translation: JS in in-repo addon addon
+  app:
+    hbs-translation: HBS in in-repo addon app
+    js-translation: JS in in-repo addon app
+  translation-outside-addon: This translation is used outside the in-repo addon
+  unused: This translation is unused
