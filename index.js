@@ -25,7 +25,7 @@ async function run(rootDir, options = {}) {
   const NUM_STEPS = 4;
   const step = num => chalk.dim(`[${num}/${NUM_STEPS}]`);
 
-  let config = readConfig(rootDir);
+  let config = options.config || readConfig(rootDir);
 
   log(`${step(1)} 🔍  Finding JS and HBS files...`);
   let appFiles = await findAppFiles(rootDir);
@@ -37,12 +37,21 @@ async function run(rootDir, options = {}) {
 
   log(`${step(3)} ⚙️   Checking for unused translations...`);
 
-  let translationFiles = await findTranslationFiles(rootDir);
-  let existingTranslationKeys = await analyzeTranslationFiles(rootDir, translationFiles);
+  let ownTranslationFiles = await findOwnTranslationFiles(rootDir);
+  let externalTranslationFiles = await findExternalTranslationFiles(rootDir, config);
+  let existingOwnTranslationKeys = await analyzeTranslationFiles(rootDir, ownTranslationFiles);
+  let existingExternalTranslationKeys = await analyzeTranslationFiles(
+    rootDir,
+    externalTranslationFiles
+  );
+  let existingTranslationKeys = mergeMaps(
+    existingOwnTranslationKeys,
+    existingExternalTranslationKeys
+  );
   let whitelist = config.whitelist || [];
 
   let unusedTranslations = findDifferenceInTranslations(
-    existingTranslationKeys,
+    existingOwnTranslationKeys,
     usedTranslationKeys,
     whitelist
   );
@@ -82,7 +91,7 @@ async function run(rootDir, options = {}) {
   let totalErrors = missingTranslations.size + unusedTranslations.size;
 
   if (shouldFix) {
-    removeUnusedTranslations(writeToFile, rootDir, translationFiles, unusedTranslations);
+    removeUnusedTranslations(writeToFile, rootDir, ownTranslationFiles, unusedTranslations);
     log();
     log(' 👏 All unused translations were removed');
   }
@@ -113,8 +122,19 @@ async function findInRepoFiles(cwd) {
   return globby(joinPaths(inRepoFolders, ['**/*.js', '**/*.hbs', '**/*.emblem']), { cwd });
 }
 
-async function findTranslationFiles(cwd) {
-  let inputFolders = ['', ...findInRepoPaths(cwd)];
+async function findOwnTranslationFiles(cwd) {
+  return findTranslationFiles(cwd, ['', ...findInRepoPaths(cwd)]);
+}
+
+async function findExternalTranslationFiles(cwd, config) {
+  if (!config.externalPaths) {
+    return [];
+  }
+
+  return findTranslationFiles(cwd, joinPaths('node_modules', config.externalPaths));
+}
+
+async function findTranslationFiles(cwd, inputFolders) {
   let translationPaths = joinPaths(inputFolders, ['translations']);
 
   return globby(joinPaths(translationPaths, ['**/*.json', '**/*.yaml', '**/*.yml']), {
@@ -386,6 +406,21 @@ function getNestedAttribute(parent, keys) {
     return getNestedAttribute(attribute, childKeys);
   }
   return attribute;
+}
+
+function mergeMaps(mapA, mapB) {
+  let resultMap = new Map([...mapA]);
+
+  for (let [key, bFiles] of mapB) {
+    if (!resultMap.has(key)) {
+      resultMap.set(key, bFiles);
+    } else {
+      let aFiles = resultMap.get(key);
+      resultMap.set(key, new Set([...aFiles, ...bFiles]));
+    }
+  }
+
+  return resultMap;
 }
 
 module.exports = { run, generateFileList };

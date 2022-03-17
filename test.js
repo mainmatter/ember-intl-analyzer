@@ -11,8 +11,14 @@ describe('Test Fixtures', () => {
     'missing-translations',
     'unused-translations',
     'in-repo-translations',
+    'external-addon-translations',
   ];
   let fixturesWithFix = ['remove-unused-translations', 'remove-unused-translations-nested'];
+  let fixturesWithConfig = {
+    'external-addon-translations': {
+      externalPaths: ['@*/*', 'external-addon'],
+    },
+  };
 
   beforeEach(() => {
     output = '';
@@ -34,6 +40,7 @@ describe('Test Fixtures', () => {
         fix: fixturesWithFix.includes(fixture),
         color: false,
         writeToFile,
+        config: fixturesWithConfig[fixture],
       });
 
       let expectedReturnValue = fixturesWithErrors.includes(fixture) ? 1 : 0;
