@@ -1,0 +1,23 @@
+prefix:
+  simple: Simple concatenation
+  with-if-first: First condition
+  with-if-second: Second condition
+  some-action: Action that can be long
+  some-action-short: Action
+  edit:
+    label: Label on edit branch
+    nested: Nested concat on edit branch
+  new:
+    label: Label on new branch
+    nested: Nested concat on new branch
+  a1:
+    value: Value
+  b1:
+    value: Value
+  c1:
+    value: Value
+  c2:
+    value: Value
+  key-that-should-exist:
+    value: value
+foo: Foo

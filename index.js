@@ -238,44 +238,67 @@ async function analyzeHbsFile(content) {
   // parse the HBS file
   let ast = Glimmer.preprocess(content);
 
+  function findKeysInIfExpression(node) {
+    let keysInFirstParam = findKeysInNode(node.params[1]);
+    let keysInSecondParam = node.params.length > 2 ? findKeysInNode(node.params[2]) : [''];
+
+    return [...keysInFirstParam, ...keysInSecondParam];
+  }
+
+  function findKeysInConcatExpression(node) {
+    let potentialKeys = [''];
+
+    for (let param of node.params) {
+      let keysInParam = findKeysInNode(param);
+
+      if (keysInParam.length === 0) return [];
+
+      potentialKeys = potentialKeys.reduce((newPotentialKeys, potentialKey) => {
+        for (let key of keysInParam) {
+          newPotentialKeys.push(potentialKey + key);
+        }
+
+        return newPotentialKeys;
+      }, []);
+    }
+
+    return potentialKeys;
+  }
+
+  function findKeysInNode(node) {
+    if (!node) return [];
+
+    if (node.type === 'StringLiteral') {
+      return [node.value];
+    } else if (node.type === 'SubExpression' && node.path.original === 'if') {
+      return findKeysInIfExpression(node);
+    } else if (node.type === 'SubExpression' && node.path.original === 'concat') {
+      return findKeysInConcatExpression(node);
+    }
+
+    return [];
+  }
+
+  function processNode(node) {
+    if (node.path.type !== 'PathExpression') return;
+    if (node.path.original !== 't') return;
+    if (node.params.length === 0) return;
+
+    for (let key of findKeysInNode(node.params[0])) {
+      translationKeys.add(key);
+    }
+  }
+
   // find translation keys in the syntax tree
   Glimmer.traverse(ast, {
     // handle {{t "foo"}} case
     MustacheStatement(node) {
-      if (node.path.type !== 'PathExpression') return;
-      if (node.path.original !== 't') return;
-      if (node.params.length === 0) return;
-
-      let firstParam = node.params[0];
-      if (firstParam.type === 'StringLiteral') {
-        translationKeys.add(firstParam.value);
-      } else if (firstParam.type === 'SubExpression' && firstParam.path.original === 'if') {
-        if (firstParam.params[1].type === 'StringLiteral') {
-          translationKeys.add(firstParam.params[1].value);
-        }
-        if (firstParam.params[2].type === 'StringLiteral') {
-          translationKeys.add(firstParam.params[2].value);
-        }
-      }
+      processNode(node);
     },
 
     // handle {{some-component foo=(t "bar")}} case
     SubExpression(node) {
-      if (node.path.type !== 'PathExpression') return;
-      if (node.path.original !== 't') return;
-      if (node.params.length === 0) return;
-
-      let firstParam = node.params[0];
-      if (firstParam.type === 'StringLiteral') {
-        translationKeys.add(firstParam.value);
-      } else if (firstParam.type === 'SubExpression' && firstParam.path.original === 'if') {
-        if (firstParam.params[1].type === 'StringLiteral') {
-          translationKeys.add(firstParam.params[1].value);
-        }
-        if (firstParam.params[2].type === 'StringLiteral') {
-          translationKeys.add(firstParam.params[2].value);
-        }
-      }
+      processNode(node);
     },
   });
 
