@@ -12,8 +12,10 @@ describe('Test Fixtures', () => {
     'unused-translations',
     'in-repo-translations',
     'external-addon-translations',
+    'concat-expression',
   ];
   let fixturesWithFix = ['remove-unused-translations', 'remove-unused-translations-nested'];
+  let fixturesWithConcat = ['concat-expression'];
   let fixturesWithConfig = {
     'external-addon-translations': {
       externalPaths: ['@*/*', 'external-addon'],
@@ -41,6 +43,7 @@ describe('Test Fixtures', () => {
         color: false,
         writeToFile,
         config: fixturesWithConfig[fixture],
+        analyzeConcatExpression: fixturesWithConcat.includes(fixture),
       });
 
       let expectedReturnValue = fixturesWithErrors.includes(fixture) ? 1 : 0;

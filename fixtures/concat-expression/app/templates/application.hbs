@@ -1,0 +1,10 @@
+{{t (concat "prefix" "." "simple")}}
+{{t (concat "prefix" "." "simple-but-missing")}}
+{{t (concat "prefix." (if true "with-if-first" "with-if-second"))}}
+{{t (concat "prefix.some-action" (if this.isCompact "-short"))}}
+{{t (concat "prefix." (if this.isEditing "edit" "new") ".label")}}
+{{t (if true "foo" (concat "prefix." (if this.isEditing "edit" "new") ".nested"))}}
+{{t (concat "prefix." this.dynamicKey ".not-missing")}}
+{{t (concat "prefix." (if true "a1" (if false "b1" (concat "c" (if false "1" "2")))) ".value")}}
+{{t (concat "prefix." (if true this.dynamicKey "key-that-should-exist") ".value")}}
+{{t (concat "prefix." (if true this.dynamicKey "key-that-should-exist-but-is-missing") ".value")}}
