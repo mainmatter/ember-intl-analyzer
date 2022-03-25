@@ -26,6 +26,7 @@ async function run(rootDir, options = {}) {
   const step = num => chalk.dim(`[${num}/${NUM_STEPS}]`);
 
   let config = readConfig(rootDir);
+  let intlConfig = readIntlConfig(rootDir);
 
   log(`${step(1)} 🔍  Finding JS and HBS files...`);
   let files = await findAppFiles(rootDir);
@@ -35,7 +36,7 @@ async function run(rootDir, options = {}) {
 
   log(`${step(3)} ⚙️   Checking for unused translations...`);
 
-  let translationFiles = await findTranslationFiles(rootDir);
+  let translationFiles = await findTranslationFiles(rootDir, intlConfig);
   let existingTranslationKeys = await analyzeTranslationFiles(rootDir, translationFiles);
   let whitelist = config.whitelist || [];
 
@@ -100,12 +101,33 @@ function readConfig(cwd) {
   return config;
 }
 
+function readIntlConfig(cwd) {
+  let configPath = `${cwd}/config/ember-intl.js`;
+
+  let config;
+  if (fs.existsSync(configPath)) {
+    let requireESM = require('esm')(module);
+    config = requireESM(configPath);
+    if (config) {
+      if (typeof config === 'function') {
+        config = config();
+      } else if (Object.prototype.hasOwnProperty.call(config, 'default')) {
+        config = config.default;
+      }
+    }
+  }
+
+  return config || {};
+}
+
 async function findAppFiles(cwd) {
   return globby(['app/**/*.js', 'app/**/*.hbs', 'app/**/*.emblem'], { cwd });
 }
 
-async function findTranslationFiles(cwd) {
-  return globby(['translations/**/*.json', 'translations/**/*.yaml', 'translations/**/*.yml'], {
+async function findTranslationFiles(cwd, intlConfig) {
+  let { inputPath = 'translations/' } = intlConfig;
+
+  return globby([`${inputPath}**/*.json`, `${inputPath}**/*.yaml`, `${inputPath}**/*.yml`], {
     cwd,
   });
 }
