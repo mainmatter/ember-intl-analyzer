@@ -15,6 +15,7 @@
   },
   "scripts": {
     "changelog": "lerna-changelog",
+    "release": "release-it",
     "lint": "eslint . --cache",
     "test": "jest"
   },
@@ -36,7 +37,9 @@
     "eslint-plugin-prettier": "4.0.0",
     "jest": "27.5.1",
     "lerna-changelog": "2.2.0",
-    "prettier": "2.6.2"
+    "prettier": "2.6.2",
+    "release-it": "^14.14.0",
+    "release-it-lerna-changelog": "^4.0.1"
   },
   "engines": {
     "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
