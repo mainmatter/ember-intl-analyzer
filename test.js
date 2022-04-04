@@ -1,3 +1,4 @@
+const execa = require('execa');
 const fs = require('fs');
 const { run, generateFileList } = require('./index');
 
@@ -57,5 +58,43 @@ describe('generateFileList', () => {
 
   test('passing an empty array throws an error', () => {
     expect(() => generateFileList([])).toThrow('Unexpected empty file list');
+  });
+});
+
+describe('Running from cli', () => {
+  test('without unused translations', async () => {
+    let { stdout } = await execa('node', ['../../bin/cli'], {
+      cwd: `${__dirname}/fixtures/no-issues`,
+    });
+
+    expect(stdout).toMatch('No unused translations');
+  });
+
+  test('with unused translations', async () => {
+    expect(
+      execa('node', ['../../bin/cli'], { cwd: `${__dirname}/fixtures/unused-translations` })
+    ).rejects.toThrowError('Found 2 unused translations');
+  });
+
+  test('with missing translations', async () => {
+    expect(
+      execa('node', ['../../bin/cli'], { cwd: `${__dirname}/fixtures/missing-translations` })
+    ).rejects.toThrowError('Found 2 missing translations');
+  });
+
+  describe('with auto-fix', () => {
+    afterEach(async function () {
+      await execa('git', ['checkout', 'HEAD', 'fixtures/remove-unused-translations/translations'], {
+        cwd: __dirname,
+      });
+    });
+
+    test('with unused translations', async () => {
+      let { stdout } = await execa('node', ['../../bin/cli', '--fix'], {
+        cwd: `${__dirname}/fixtures/remove-unused-translations`,
+      });
+
+      expect(stdout).toMatch('All unused translations were removed');
+    });
   });
 });
