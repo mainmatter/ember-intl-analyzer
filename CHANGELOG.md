@@ -1,5 +1,17 @@
 # Changelog
 
+
+## v4.0.0 (2022-04-14)
+
+#### :boom: Breaking Change
+* [#489](https://github.com/simplabs/ember-intl-analyzer/pull/489) Update Node test scenarios in ci ([@Mikek2252](https://github.com/Mikek2252))
+
+#### :house: Internal
+* [#491](https://github.com/simplabs/ember-intl-analyzer/pull/491) Add release-it configuration to simplify releases ([@Mikek2252](https://github.com/Mikek2252))
+
+#### Committers: 1
+- Michael Kerr ([@Mikek2252](https://github.com/Mikek2252))
+
 ## v3.1.1 (2022-03-11)
 
 #### :bug: Bug Fix
