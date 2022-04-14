@@ -4714,7 +4714,7 @@ registry-url@^5.0.0:
   dependencies:
     rc "^1.2.8"
 
-release-it-lerna-changelog@^4.0.1:
+release-it-lerna-changelog@4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/release-it-lerna-changelog/-/release-it-lerna-changelog-4.0.1.tgz#6e2998d55f9ebf4f5d73eeac059c3b979a0bc42d"
   integrity sha512-PBE72pVfWLyUp3JN/qyAglhKIiDOPO2zdupT8JQrJmW+wi3ZERtr0IFSGNmczFcMnMnTFnzpuJGpTPAoqQToVg==
