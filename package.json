@@ -39,7 +39,7 @@
     "lerna-changelog": "2.2.0",
     "prettier": "2.6.2",
     "release-it": "14.14.2",
-    "release-it-lerna-changelog": "^4.0.1"
+    "release-it-lerna-changelog": "4.0.1"
   },
   "engines": {
     "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
