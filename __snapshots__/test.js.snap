@@ -44,6 +44,26 @@ exports[`Test Fixtures emblem 1`] = `
 
 exports[`Test Fixtures emblem 2`] = `Map {}`;
 
+exports[`Test Fixtures in-repo-translations 1`] = `
+"[1/4] 🔍  Finding JS and HBS files...
+[2/4] 🔍  Searching for translations keys in JS and HBS files...
+[3/4] ⚙️   Checking for unused translations...
+[4/4] ⚙️   Checking for missing translations...
+
+ ⚠️   Found 1 unused translations!
+     You can use --fix to remove all unused translations.
+
+   - in-repo-addon.unused (used in lib/in-repo-addon/translations/en.yaml)
+
+ ⚠️   Found 2 missing translations!
+
+   - translation-missing-in-addon (used in lib/in-repo-addon/addon/templates/addon.hbs)
+   - translation-missing-in-app (used in lib/in-repo-addon/app/templates/application.hbs)
+"
+`;
+
+exports[`Test Fixtures in-repo-translations 2`] = `Map {}`;
+
 exports[`Test Fixtures missing-translations 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...

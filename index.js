@@ -28,7 +28,9 @@ async function run(rootDir, options = {}) {
   let config = readConfig(rootDir);
 
   log(`${step(1)} 🔍  Finding JS and HBS files...`);
-  let files = await findAppFiles(rootDir);
+  let appFiles = await findAppFiles(rootDir);
+  let inRepoFiles = await findInRepoFiles(rootDir);
+  let files = [...appFiles, ...inRepoFiles];
 
   log(`${step(2)} 🔍  Searching for translations keys in JS and HBS files...`);
   let usedTranslationKeys = await analyzeFiles(rootDir, files);
@@ -104,10 +106,39 @@ async function findAppFiles(cwd) {
   return globby(['app/**/*.js', 'app/**/*.hbs', 'app/**/*.emblem'], { cwd });
 }
 
+async function findInRepoFiles(cwd) {
+  let inRepoPaths = findInRepoPaths(cwd);
+  let inRepoFolders = joinPaths(inRepoPaths, ['addon', 'app']);
+
+  return globby(joinPaths(inRepoFolders, ['**/*.js', '**/*.hbs', '**/*.emblem']), { cwd });
+}
+
 async function findTranslationFiles(cwd) {
-  return globby(['translations/**/*.json', 'translations/**/*.yaml', 'translations/**/*.yml'], {
+  let inputFolders = ['', ...findInRepoPaths(cwd)];
+  let translationPaths = joinPaths(inputFolders, ['translations']);
+
+  return globby(joinPaths(translationPaths, ['**/*.json', '**/*.yaml', '**/*.yml']), {
     cwd,
   });
+}
+
+function findInRepoPaths(cwd) {
+  let pkgJSONPath = path.join(cwd, 'package.json');
+
+  if (!fs.existsSync(pkgJSONPath)) return [];
+
+  let pkgJSON = JSON.parse(fs.readFileSync(path.join(cwd, 'package.json')));
+  let inRepoPaths = pkgJSON && pkgJSON['ember-addon'] && pkgJSON['ember-addon']['paths'];
+
+  return inRepoPaths || [];
+}
+
+function joinPaths(inputPathOrPaths, outputPaths) {
+  if (Array.isArray(inputPathOrPaths)) {
+    return inputPathOrPaths.map(inputPath => joinPaths(inputPath, outputPaths)).flat();
+  } else {
+    return outputPaths.map(directory => path.join(inputPathOrPaths, directory));
+  }
 }
 
 async function analyzeFiles(cwd, files) {

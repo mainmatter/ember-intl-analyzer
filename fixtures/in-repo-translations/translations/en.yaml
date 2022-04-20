@@ -1,0 +1,4 @@
+hbs-translation: HBS!
+js-translation: JS!
+translation-outside-app-in-addon: This translation is only used in the addon folder of the addon
+translation-outside-app-in-app: This translation is only used in the app folder of the addon
