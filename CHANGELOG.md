@@ -1,6 +1,16 @@
 # Changelog
 
 
+
+## v4.1.0 (2022-04-22)
+
+#### :rocket: Enhancement
+* [#481](https://github.com/simplabs/ember-intl-analyzer/pull/481) Add support for translations in actual addons ([@robinborst95](https://github.com/robinborst95))
+* [#480](https://github.com/simplabs/ember-intl-analyzer/pull/480) Add support for translations in in-repo addons ([@robinborst95](https://github.com/robinborst95))
+
+#### Committers: 1
+- Robin Borst  ([@robinborst95](https://github.com/robinborst95))
+
 ## v4.0.0 (2022-04-14)
 
 #### :boom: Breaking Change
