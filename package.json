@@ -35,7 +35,7 @@
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-prettier": "4.0.0",
-    "jest": "28.0.3",
+    "jest": "28.1.0",
     "lerna-changelog": "2.2.0",
     "prettier": "2.6.2",
     "release-it": "14.14.3",
