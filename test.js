@@ -14,6 +14,7 @@ describe('Test Fixtures', () => {
     'external-addon-translations',
   ];
   let fixturesWithFix = ['remove-unused-translations', 'remove-unused-translations-nested'];
+  let fixturesWithDynamicKeys = ['concat-expression'];
   let fixturesWithConfig = {
     'external-addon-translations': {
       externalPaths: ['@*/*', 'external-addon'],
@@ -41,6 +42,7 @@ describe('Test Fixtures', () => {
         color: false,
         writeToFile,
         config: fixturesWithConfig[fixture],
+        logDynamic: fixturesWithDynamicKeys.includes(fixture),
       });
 
       let expectedReturnValue = fixturesWithErrors.includes(fixture) ? 1 : 0;

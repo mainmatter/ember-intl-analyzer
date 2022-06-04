@@ -15,6 +15,7 @@ async function run(rootDir, options = {}) {
   let log = options.log || console.log;
   let writeToFile = options.writeToFile || fs.writeFileSync;
   let shouldFix = options.fix || false;
+  let logDynamic = options.logDynamic || false;
 
   let chalkOptions = {};
   if (options.color === false) {
@@ -33,7 +34,26 @@ async function run(rootDir, options = {}) {
   let files = [...appFiles, ...inRepoFiles];
 
   log(`${step(2)} 🔍  Searching for translations keys in JS and HBS files...`);
-  let usedTranslationKeys = await analyzeFiles(rootDir, files);
+  let [usedTranslationKeys, usedDynamicTranslations] = await analyzeFiles(rootDir, files);
+
+  if (logDynamic) {
+    if (usedDynamicTranslations.size === 0) {
+      log();
+      log(' ⭐  No dynamic translations were found.');
+      log();
+    } else {
+      log();
+      log(
+        ` ⭐  Found ${chalk.bold.yellow(
+          usedDynamicTranslations.size
+        )} dynamic translations. This might cause this tool to report more unused translations than there actually are!`
+      );
+      log();
+      for (let [key, files] of usedDynamicTranslations) {
+        log(`   - ${key} ${chalk.dim(`(used in ${generateFileList(files)})`)}`);
+      }
+    }
+  }
 
   log(`${step(3)} ⚙️   Checking for unused translations...`);
 
@@ -163,9 +183,10 @@ function joinPaths(inputPathOrPaths, outputPaths) {
 
 async function analyzeFiles(cwd, files) {
   let allTranslationKeys = new Map();
+  let allDynamicTranslations = new Map();
 
   for (let file of files) {
-    let translationKeys = await analyzeFile(cwd, file);
+    let [translationKeys, dynamicTranslations] = await analyzeFile(cwd, file);
 
     for (let key of translationKeys) {
       if (allTranslationKeys.has(key)) {
@@ -174,9 +195,17 @@ async function analyzeFiles(cwd, files) {
         allTranslationKeys.set(key, new Set([file]));
       }
     }
+
+    for (let dynamicTranslation of dynamicTranslations) {
+      if (allDynamicTranslations.has(dynamicTranslation)) {
+        allDynamicTranslations.get(dynamicTranslation).add(file);
+      } else {
+        allDynamicTranslations.set(dynamicTranslation, new Set([file]));
+      }
+    }
   }
 
-  return allTranslationKeys;
+  return [allTranslationKeys, allDynamicTranslations];
 }
 
 async function analyzeFile(cwd, file) {
@@ -229,57 +258,138 @@ async function analyzeJsFile(content) {
     },
   });
 
-  return translationKeys;
+  return [translationKeys, new Set()];
 }
 
 async function analyzeHbsFile(content) {
   let translationKeys = new Set();
+  let dynamicTranslations = new Set();
 
   // parse the HBS file
   let ast = Glimmer.preprocess(content);
+
+  class StringKey {
+    constructor(value) {
+      this.value = value;
+    }
+
+    join(otherKey) {
+      if (otherKey instanceof StringKey) {
+        return new StringKey(this.value + otherKey.value);
+      } else {
+        return new CompositeKey(this, otherKey);
+      }
+    }
+
+    toString() {
+      return this.value;
+    }
+  }
+
+  class DynamicKey {
+    constructor(node) {
+      this.node = node;
+    }
+
+    join(otherKey) {
+      return new CompositeKey(this, otherKey);
+    }
+
+    toString() {
+      if (this.node.type === 'PathExpression') {
+        return `{{${this.node.original}}}`;
+      } else if (this.node.type === 'SubExpression') {
+        return `{{${this.node.path.original} helper}}`;
+      }
+
+      return '{{dynamic key}}';
+    }
+  }
+
+  class CompositeKey {
+    constructor(...values) {
+      this.values = values;
+    }
+
+    join(otherKey) {
+      return new CompositeKey(...this.values, otherKey);
+    }
+
+    toString() {
+      return this.values.reduce((string, value) => string + value.toString(), '');
+    }
+  }
+
+  function findKeysInIfExpression(node) {
+    let keysInFirstParam = findKeysInNode(node.params[1]);
+    let keysInSecondParam =
+      node.params.length > 2 ? findKeysInNode(node.params[2]) : [new StringKey('')];
+
+    return [...keysInFirstParam, ...keysInSecondParam];
+  }
+
+  function findKeysInConcatExpression(node) {
+    let potentialKeys = [new StringKey('')];
+
+    for (let param of node.params) {
+      let keysInParam = findKeysInNode(param);
+
+      if (keysInParam.length === 0) return [];
+
+      potentialKeys = potentialKeys.reduce((newPotentialKeys, potentialKey) => {
+        for (let key of keysInParam) {
+          newPotentialKeys.push(potentialKey.join(key));
+        }
+
+        return newPotentialKeys;
+      }, []);
+    }
+
+    return potentialKeys;
+  }
+
+  function findKeysInNode(node) {
+    if (!node) return [];
+
+    if (node.type === 'StringLiteral') {
+      return [new StringKey(node.value)];
+    } else if (node.type === 'SubExpression' && node.path.original === 'if') {
+      return findKeysInIfExpression(node);
+    } else if (node.type === 'SubExpression' && node.path.original === 'concat') {
+      return findKeysInConcatExpression(node);
+    }
+
+    return [new DynamicKey(node)];
+  }
+
+  function processNode(node) {
+    if (node.path.type !== 'PathExpression') return;
+    if (node.path.original !== 't') return;
+    if (node.params.length === 0) return;
+
+    for (let key of findKeysInNode(node.params[0])) {
+      if (key instanceof StringKey) {
+        translationKeys.add(key.value);
+      } else {
+        dynamicTranslations.add(key.toString());
+      }
+    }
+  }
 
   // find translation keys in the syntax tree
   Glimmer.traverse(ast, {
     // handle {{t "foo"}} case
     MustacheStatement(node) {
-      if (node.path.type !== 'PathExpression') return;
-      if (node.path.original !== 't') return;
-      if (node.params.length === 0) return;
-
-      let firstParam = node.params[0];
-      if (firstParam.type === 'StringLiteral') {
-        translationKeys.add(firstParam.value);
-      } else if (firstParam.type === 'SubExpression' && firstParam.path.original === 'if') {
-        if (firstParam.params[1].type === 'StringLiteral') {
-          translationKeys.add(firstParam.params[1].value);
-        }
-        if (firstParam.params[2].type === 'StringLiteral') {
-          translationKeys.add(firstParam.params[2].value);
-        }
-      }
+      processNode(node);
     },
 
     // handle {{some-component foo=(t "bar")}} case
     SubExpression(node) {
-      if (node.path.type !== 'PathExpression') return;
-      if (node.path.original !== 't') return;
-      if (node.params.length === 0) return;
-
-      let firstParam = node.params[0];
-      if (firstParam.type === 'StringLiteral') {
-        translationKeys.add(firstParam.value);
-      } else if (firstParam.type === 'SubExpression' && firstParam.path.original === 'if') {
-        if (firstParam.params[1].type === 'StringLiteral') {
-          translationKeys.add(firstParam.params[1].value);
-        }
-        if (firstParam.params[2].type === 'StringLiteral') {
-          translationKeys.add(firstParam.params[2].value);
-        }
-      }
+      processNode(node);
     },
   });
 
-  return translationKeys;
+  return [translationKeys, dynamicTranslations];
 }
 
 async function analyzeTranslationFiles(cwd, files) {
