@@ -2,6 +2,15 @@
 
 
 
+
+## v4.2.0 (2022-06-17)
+
+#### :rocket: Enhancement
+* [#483](https://github.com/simplabs/ember-intl-analyzer/pull/483) Add support for concat expressions in HBS files ([@robinborst95](https://github.com/robinborst95))
+
+#### Committers: 1
+- Robin Borst  ([@robinborst95](https://github.com/robinborst95))
+
 ## v4.1.0 (2022-04-22)
 
 #### :rocket: Enhancement
