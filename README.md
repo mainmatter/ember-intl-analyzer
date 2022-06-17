@@ -43,6 +43,30 @@ To prevent that from happening you can configure a `whitelist`, which accepts an
 array of regular expressions that will be checked when looking for unused
 translations.
 
+### `analyzeConcatExpression`
+
+If your template contains translations like this:
+```hbs
+{{t (concat "actions." (if @isEditing "save" "publish"))}}
+```
+then ember-intl-analyzer does not detect that `actions.save` and `actions.publish`
+are in fact used translations, so they can be incorrectly flagged as missing or
+unused. As the `concat` helper can make it harder to read, it's encouraged to
+rewrite it to for example:
+```hbs
+{{if @isEditing (t "actions.save") (t "actions.publish")}}
+```
+
+However, if your application relies heavily on this `concat` helper, then rewriting
+may not be the best option for you. In that case, you can opt-in to analyze `concat`
+expressions too by setting the `analyzeConcatExpression` flag in the configuration file:
+
+```js
+export default {
+  analyzeConcatExpression: true,
+};
+```
+
 ### `externalPaths`
 
 If your application uses translations provided by (external) addons, then those

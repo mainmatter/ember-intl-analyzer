@@ -26,6 +26,8 @@ async function run(rootDir, options = {}) {
   const step = num => chalk.dim(`[${num}/${NUM_STEPS}]`);
 
   let config = options.config || readConfig(rootDir);
+  let analyzeConcatExpression = options.analyzeConcatExpression || config.analyzeConcatExpression;
+  let analyzeOptions = { analyzeConcatExpression };
 
   log(`${step(1)} 🔍  Finding JS and HBS files...`);
   let appFiles = await findAppFiles(rootDir);
@@ -33,7 +35,7 @@ async function run(rootDir, options = {}) {
   let files = [...appFiles, ...inRepoFiles];
 
   log(`${step(2)} 🔍  Searching for translations keys in JS and HBS files...`);
-  let usedTranslationKeys = await analyzeFiles(rootDir, files);
+  let usedTranslationKeys = await analyzeFiles(rootDir, files, analyzeOptions);
 
   log(`${step(3)} ⚙️   Checking for unused translations...`);
 
@@ -161,11 +163,11 @@ function joinPaths(inputPathOrPaths, outputPaths) {
   }
 }
 
-async function analyzeFiles(cwd, files) {
+async function analyzeFiles(cwd, files, options) {
   let allTranslationKeys = new Map();
 
   for (let file of files) {
-    let translationKeys = await analyzeFile(cwd, file);
+    let translationKeys = await analyzeFile(cwd, file, options);
 
     for (let key of translationKeys) {
       if (allTranslationKeys.has(key)) {
@@ -179,17 +181,17 @@ async function analyzeFiles(cwd, files) {
   return allTranslationKeys;
 }
 
-async function analyzeFile(cwd, file) {
+async function analyzeFile(cwd, file, options) {
   let content = fs.readFileSync(`${cwd}/${file}`, 'utf8');
   let extension = path.extname(file).toLowerCase();
 
   if (extension === '.js') {
-    return analyzeJsFile(content);
+    return analyzeJsFile(content, options);
   } else if (extension === '.hbs') {
-    return analyzeHbsFile(content);
+    return analyzeHbsFile(content, options);
   } else if (extension === '.emblem') {
     let hbs = Emblem.compile(content, { quiet: true });
-    return analyzeHbsFile(hbs);
+    return analyzeHbsFile(hbs, options);
   } else {
     throw new Error(`Unknown extension: ${extension} (${file})`);
   }
@@ -232,50 +234,77 @@ async function analyzeJsFile(content) {
   return translationKeys;
 }
 
-async function analyzeHbsFile(content) {
+async function analyzeHbsFile(content, { analyzeConcatExpression = false }) {
   let translationKeys = new Set();
 
   // parse the HBS file
   let ast = Glimmer.preprocess(content);
 
+  function findKeysInIfExpression(node) {
+    let keysInFirstParam = findKeysInNode(node.params[1]);
+    let keysInSecondParam = node.params.length > 2 ? findKeysInNode(node.params[2]) : [''];
+
+    return [...keysInFirstParam, ...keysInSecondParam];
+  }
+
+  function findKeysInConcatExpression(node) {
+    let potentialKeys = [''];
+
+    for (let param of node.params) {
+      let keysInParam = findKeysInNode(param);
+
+      if (keysInParam.length === 0) return [];
+
+      potentialKeys = potentialKeys.reduce((newPotentialKeys, potentialKey) => {
+        for (let key of keysInParam) {
+          newPotentialKeys.push(potentialKey + key);
+        }
+
+        return newPotentialKeys;
+      }, []);
+    }
+
+    return potentialKeys;
+  }
+
+  function findKeysInNode(node) {
+    if (!node) return [];
+
+    if (node.type === 'StringLiteral') {
+      return [node.value];
+    } else if (node.type === 'SubExpression' && node.path.original === 'if') {
+      return findKeysInIfExpression(node);
+    } else if (
+      analyzeConcatExpression &&
+      node.type === 'SubExpression' &&
+      node.path.original === 'concat'
+    ) {
+      return findKeysInConcatExpression(node);
+    }
+
+    return [];
+  }
+
+  function processNode(node) {
+    if (node.path.type !== 'PathExpression') return;
+    if (node.path.original !== 't') return;
+    if (node.params.length === 0) return;
+
+    for (let key of findKeysInNode(node.params[0])) {
+      translationKeys.add(key);
+    }
+  }
+
   // find translation keys in the syntax tree
   Glimmer.traverse(ast, {
     // handle {{t "foo"}} case
     MustacheStatement(node) {
-      if (node.path.type !== 'PathExpression') return;
-      if (node.path.original !== 't') return;
-      if (node.params.length === 0) return;
-
-      let firstParam = node.params[0];
-      if (firstParam.type === 'StringLiteral') {
-        translationKeys.add(firstParam.value);
-      } else if (firstParam.type === 'SubExpression' && firstParam.path.original === 'if') {
-        if (firstParam.params[1].type === 'StringLiteral') {
-          translationKeys.add(firstParam.params[1].value);
-        }
-        if (firstParam.params[2].type === 'StringLiteral') {
-          translationKeys.add(firstParam.params[2].value);
-        }
-      }
+      processNode(node);
     },
 
     // handle {{some-component foo=(t "bar")}} case
     SubExpression(node) {
-      if (node.path.type !== 'PathExpression') return;
-      if (node.path.original !== 't') return;
-      if (node.params.length === 0) return;
-
-      let firstParam = node.params[0];
-      if (firstParam.type === 'StringLiteral') {
-        translationKeys.add(firstParam.value);
-      } else if (firstParam.type === 'SubExpression' && firstParam.path.original === 'if') {
-        if (firstParam.params[1].type === 'StringLiteral') {
-          translationKeys.add(firstParam.params[1].value);
-        }
-        if (firstParam.params[2].type === 'StringLiteral') {
-          translationKeys.add(firstParam.params[2].value);
-        }
-      }
+      processNode(node);
     },
   });
 
