@@ -24,6 +24,10 @@ describe('Test Fixtures', () => {
     'chosen-translations': {
       translationFiles: ['**/en.yaml'],
     },
+    'plugin-config': {
+      babelParserPlugins: ['typescript'],
+      extensions: ['.ts'],
+    },
   };
 
   beforeEach(() => {
