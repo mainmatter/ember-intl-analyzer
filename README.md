@@ -104,6 +104,28 @@ This example will try to find all `en.yaml` files in the different `translations
 folders, but any patterns supported by [`globby`](https://www.npmjs.com/package/globby) are also
 possible here.
 
+### `babelParserPlugins` `extensions`
+
+If your application uses doesn't parse correctly because it requires a specific babel plugin you can specifiy them in the config file under the key `babelParserPlugins` a list on plugins can be found [here](https://babeljs.io/docs/en/babel-parser#plugins).
+
+For example if you would like typescript support you can specify the `typescript` plugin, although please note if the plugin introduces a new file extension you will also need to specifiy that in the `extensions` property. See the examples below.
+
+Typescript example
+```js
+export default {
+  babelParserPlugins: ['typescript'],
+  extensions: ['.ts'],
+};
+```
+
+Jsx example
+```js
+export default {
+  babelParserPlugins: ['jsx'],
+  extensions: ['.jsx'],
+};
+```
+
 ### `--fix`
 If your application has a lot of unused translations you can run the command with
 the `--fix` to remove them. Remember to double check your translations as dynamic
