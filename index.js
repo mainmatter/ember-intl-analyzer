@@ -39,7 +39,7 @@ async function run(rootDir, options = {}) {
 
   log(`${step(3)} ⚙️   Checking for unused translations...`);
 
-  let ownTranslationFiles = await findOwnTranslationFiles(rootDir);
+  let ownTranslationFiles = await findOwnTranslationFiles(rootDir, config);
   let externalTranslationFiles = await findExternalTranslationFiles(rootDir, config);
   let existingOwnTranslationKeys = await analyzeTranslationFiles(rootDir, ownTranslationFiles);
   let existingExternalTranslationKeys = await analyzeTranslationFiles(
@@ -124,8 +124,8 @@ async function findInRepoFiles(cwd) {
   return globby(joinPaths(inRepoFolders, ['**/*.js', '**/*.hbs', '**/*.emblem']), { cwd });
 }
 
-async function findOwnTranslationFiles(cwd) {
-  return findTranslationFiles(cwd, ['', ...findInRepoPaths(cwd)]);
+async function findOwnTranslationFiles(cwd, config) {
+  return findTranslationFiles(cwd, ['', ...findInRepoPaths(cwd)], config);
 }
 
 async function findExternalTranslationFiles(cwd, config) {
@@ -133,15 +133,18 @@ async function findExternalTranslationFiles(cwd, config) {
     return [];
   }
 
-  return findTranslationFiles(cwd, joinPaths('node_modules', config.externalPaths));
+  return findTranslationFiles(cwd, joinPaths('node_modules', config.externalPaths), config);
 }
 
-async function findTranslationFiles(cwd, inputFolders) {
+async function findTranslationFiles(cwd, inputFolders, config) {
   let translationPaths = joinPaths(inputFolders, ['translations']);
 
-  return globby(joinPaths(translationPaths, ['**/*.json', '**/*.yaml', '**/*.yml']), {
-    cwd,
-  });
+  return globby(
+    joinPaths(translationPaths, config.translationFiles || ['**/*.json', '**/*.yaml', '**/*.yml']),
+    {
+      cwd,
+    }
+  );
 }
 
 function findInRepoPaths(cwd) {
