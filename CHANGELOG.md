@@ -3,6 +3,15 @@
 
 
 
+
+## v4.3.0 (2022-08-10)
+
+#### :rocket: Enhancement
+* [#538](https://github.com/simplabs/ember-intl-analyzer/pull/538) Add support to specify which translation files are analyzed ([@robinborst95](https://github.com/robinborst95))
+
+#### Committers: 1
+- Robin Borst  ([@robinborst95](https://github.com/robinborst95))
+
 ## v4.2.0 (2022-06-17)
 
 #### :rocket: Enhancement
