@@ -13,12 +13,16 @@ describe('Test Fixtures', () => {
     'in-repo-translations',
     'external-addon-translations',
     'concat-expression',
+    'chosen-translations',
   ];
   let fixturesWithFix = ['remove-unused-translations', 'remove-unused-translations-nested'];
   let fixturesWithConcat = ['concat-expression'];
   let fixturesWithConfig = {
     'external-addon-translations': {
       externalPaths: ['@*/*', 'external-addon'],
+    },
+    'chosen-translations': {
+      translationFiles: ['**/en.yaml'],
     },
   };
 

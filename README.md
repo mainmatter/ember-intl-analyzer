@@ -87,6 +87,23 @@ externalPaths: ['@*/*']
 ```
 will look up translations in scoped addons like `node_modules/@company/scoped-addon/translations`.
 
+### `translationFiles`
+
+By default, this addon will try to find missing and unused translations in any YAML or
+JSON file within the `translations` folders of your application (`['**/*.json', '**/*.yaml', '**/*.yml']`).
+However, if you would like to only analyze a subset of translation files, you can override
+`translationFiles` in the configuration file as follows:
+
+```js
+export default {
+  translationFiles: ['**/en.yaml'],
+};
+```
+
+This example will try to find all `en.yaml` files in the different `translations`
+folders, but any patterns supported by [`globby`](https://www.npmjs.com/package/globby) are also
+possible here.
+
 ### `--fix`
 If your application has a lot of unused translations you can run the command with
 the `--fix` to remove them. Remember to double check your translations as dynamic
