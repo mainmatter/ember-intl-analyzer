@@ -10,6 +10,7 @@ const traverse = require('@babel/traverse').default;
 const Glimmer = require('@glimmer/syntax');
 const Emblem = require('emblem').default;
 const YAML = require('yaml');
+const DEFAULT_EXTENSIONS = ['.js', '.hbs', '.emblem'];
 
 async function run(rootDir, options = {}) {
   let log = options.log || console.log;
@@ -27,11 +28,16 @@ async function run(rootDir, options = {}) {
 
   let config = options.config || readConfig(rootDir);
   let analyzeConcatExpression = options.analyzeConcatExpression || config.analyzeConcatExpression;
-  let analyzeOptions = { analyzeConcatExpression };
+  let userPlugins = config.babelParserPlugins || [];
+  let userExtensions = config.extensions || [];
+  userExtensions = userExtensions.map(extension =>
+    extension.startsWith('.') ? extension : `.${extension}`
+  );
+  let analyzeOptions = { analyzeConcatExpression, userPlugins, userExtensions };
 
   log(`${step(1)} 🔍  Finding JS and HBS files...`);
-  let appFiles = await findAppFiles(rootDir);
-  let inRepoFiles = await findInRepoFiles(rootDir);
+  let appFiles = await findAppFiles(rootDir, userExtensions);
+  let inRepoFiles = await findInRepoFiles(rootDir, userExtensions);
   let files = [...appFiles, ...inRepoFiles];
 
   log(`${step(2)} 🔍  Searching for translations keys in JS and HBS files...`);
@@ -113,15 +119,20 @@ function readConfig(cwd) {
   return config;
 }
 
-async function findAppFiles(cwd) {
-  return globby(['app/**/*.js', 'app/**/*.hbs', 'app/**/*.emblem'], { cwd });
+async function findAppFiles(cwd, userExtensions) {
+  let extensions = [...DEFAULT_EXTENSIONS, ...userExtensions];
+  let pathsWithExtensions = extensions.map(extension => 'app/**/*' + extension);
+  return globby(pathsWithExtensions, { cwd });
 }
 
-async function findInRepoFiles(cwd) {
+async function findInRepoFiles(cwd, userExtensions) {
   let inRepoPaths = findInRepoPaths(cwd);
   let inRepoFolders = joinPaths(inRepoPaths, ['addon', 'app']);
 
-  return globby(joinPaths(inRepoFolders, ['**/*.js', '**/*.hbs', '**/*.emblem']), { cwd });
+  let extensions = [...DEFAULT_EXTENSIONS, ...userExtensions];
+  let pathsWithExtensions = extensions.map(extension => `**/*${extension}`);
+
+  return globby(joinPaths(inRepoFolders, pathsWithExtensions), { cwd });
 }
 
 async function findOwnTranslationFiles(cwd, config) {
@@ -188,8 +199,8 @@ async function analyzeFile(cwd, file, options) {
   let content = fs.readFileSync(`${cwd}/${file}`, 'utf8');
   let extension = path.extname(file).toLowerCase();
 
-  if (extension === '.js') {
-    return analyzeJsFile(content, options);
+  if (['.js', ...options.userExtensions].includes(extension)) {
+    return analyzeJsFile(content, options.userPlugins);
   } else if (extension === '.hbs') {
     return analyzeHbsFile(content, options);
   } else if (extension === '.emblem') {
@@ -200,13 +211,13 @@ async function analyzeFile(cwd, file, options) {
   }
 }
 
-async function analyzeJsFile(content) {
+async function analyzeJsFile(content, userPlugins) {
   let translationKeys = new Set();
 
   // parse the JS file
   let ast = BabelParser.parse(content, {
     sourceType: 'module',
-    plugins: ['decorators-legacy', 'dynamicImport', 'classProperties'],
+    plugins: ['decorators-legacy', 'dynamicImport', 'classProperties', ...userPlugins],
   });
 
   // find translation keys in the syntax tree
