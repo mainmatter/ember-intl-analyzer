@@ -200,7 +200,7 @@ async function analyzeFile(cwd, file, options) {
   let extension = path.extname(file).toLowerCase();
 
   if (['.js', ...options.userExtensions].includes(extension)) {
-    return analyzeJsFile(content, options);
+    return analyzeJsFile(content, options.userPlugins);
   } else if (extension === '.hbs') {
     return analyzeHbsFile(content, options);
   } else if (extension === '.emblem') {
@@ -211,13 +211,13 @@ async function analyzeFile(cwd, file, options) {
   }
 }
 
-async function analyzeJsFile(content, config) {
+async function analyzeJsFile(content, userPlugins) {
   let translationKeys = new Set();
 
   // parse the JS file
   let ast = BabelParser.parse(content, {
     sourceType: 'module',
-    plugins: ['decorators-legacy', 'dynamicImport', 'classProperties', ...config.userPlugins],
+    plugins: ['decorators-legacy', 'dynamicImport', 'classProperties', ...userPlugins],
   });
 
   // find translation keys in the syntax tree
