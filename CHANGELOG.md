@@ -4,6 +4,15 @@
 
 
 
+
+## v4.4.0 (2022-08-26)
+
+#### :rocket: Enhancement
+* [#528](https://github.com/simplabs/ember-intl-analyzer/pull/528) Add custom plugin/extension support ([@Mikek2252](https://github.com/Mikek2252))
+
+#### Committers: 1
+- Michael Kerr ([@Mikek2252](https://github.com/Mikek2252))
+
 ## v4.3.0 (2022-08-10)
 
 #### :rocket: Enhancement
