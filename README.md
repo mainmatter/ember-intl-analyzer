@@ -135,7 +135,7 @@ Caveats
 ------------------------------------------------------------------------------
 
 There are a number of things that we do not support yet. Have a look at the
-[Issues](https://github.com/simplabs/ember-intl-analyzer/issues) before using
+[Issues](https://github.com/Mainmatter/ember-intl-analyzer/issues) before using
 this project.
 
 
