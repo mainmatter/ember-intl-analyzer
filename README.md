@@ -3,6 +3,11 @@ ember-intl-analyzer
 
 Find unused translations in your Ember.js projects
 
+> [!NOTE]
+> ember-intl-analyzer was written and is maintained by
+> [Mainmatter](https://mainmatter.com) and contributors.
+> We offer consulting, training, and team augmentation for Ember.js – check out
+> our [website](https://mainmatter.com/ember-consulting/) to learn more!
 
 Usage
 ------------------------------------------------------------------------------
