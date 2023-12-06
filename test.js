@@ -28,6 +28,10 @@ describe('Test Fixtures', () => {
       babelParserPlugins: ['typescript'],
       extensions: ['.ts'],
     },
+    'first-class-component-templates': {
+      babelParserPlugins: ['typescript'],
+      extensions: ['.gts'],
+    },
   };
 
   beforeEach(() => {
