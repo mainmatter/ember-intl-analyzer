@@ -67,11 +67,14 @@ async function run(rootDir, options = {}) {
     existingExternalTranslationKeys
   );
   let whitelist = config.whitelist || [];
+  let usedWhitelistEntries = new Set();
+  let errorOnUnusedWhitelistEntries = config.errorOnUnusedWhitelistEntries || false;
 
   let unusedTranslations = findDifferenceInTranslations(
     existingOwnTranslationKeys,
     usedTranslationKeys,
-    whitelist
+    whitelist,
+    usedWhitelistEntries
   );
 
   log(`${step(4)} ⚙️   Checking for missing translations...`);
@@ -79,8 +82,14 @@ async function run(rootDir, options = {}) {
   let missingTranslations = findDifferenceInTranslations(
     usedTranslationKeys,
     existingTranslationKeys,
-    whitelist
+    whitelist,
+    usedWhitelistEntries
   );
+
+  let unusedWhitelistEntries = new Set(whitelist);
+  for (let entry of usedWhitelistEntries) {
+    unusedWhitelistEntries.delete(entry);
+  }
 
   if (unusedTranslations.size === 0) {
     log(' 👏  No unused translations were found!');
@@ -106,7 +115,23 @@ async function run(rootDir, options = {}) {
     }
   }
 
-  let totalErrors = missingTranslations.size + unusedTranslations.size;
+  if (unusedWhitelistEntries.size > 0) {
+    log();
+    log(
+      ` ⚠️   Found ${chalk.bold.yellow(unusedWhitelistEntries.size)} unused whitelist ${
+        unusedWhitelistEntries.size === 1 ? 'entry' : 'entries'
+      }! Please remove ${unusedWhitelistEntries.size === 1 ? 'it' : 'them'} from the whitelist:`
+    );
+    log();
+    for (let entry of unusedWhitelistEntries) {
+      log(`   - ${entry}`);
+    }
+  }
+
+  let totalErrors =
+    missingTranslations.size +
+    unusedTranslations.size +
+    (errorOnUnusedWhitelistEntries ? unusedWhitelistEntries.size : 0);
 
   if (shouldFix) {
     removeUnusedTranslations(writeToFile, rootDir, ownTranslationFiles, unusedTranslations);
@@ -421,15 +446,21 @@ function forEachTranslation(json, callback, prefix = '') {
 
 // Find all translation keys that appear in translation map A, but not
 // in translation map B
-function findDifferenceInTranslations(mapA, mapB, whitelist) {
+function findDifferenceInTranslations(mapA, mapB, whitelist, usedWhitelistEntries) {
   let missingTranslations = new Map();
 
   for (let [key, files] of mapA) {
     const keyTrimmed = key.trim();
     const isKeyMissing = !mapB.has(keyTrimmed);
-    const isKeyAllowed = !whitelist.some(regex => regex.test(keyTrimmed));
 
-    if (isKeyMissing && isKeyAllowed) {
+    if (!isKeyMissing) continue;
+
+    const whitelistKey = whitelist.find(regex => regex.test(keyTrimmed));
+    const isKeyWhitelisted = whitelistKey != null;
+
+    if (isKeyWhitelisted) {
+      usedWhitelistEntries.add(whitelistKey);
+    } else {
       missingTranslations.set(keyTrimmed, files);
     }
   }
