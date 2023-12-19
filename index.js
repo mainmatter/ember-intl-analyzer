@@ -126,13 +126,13 @@ function readConfig(cwd) {
   return config;
 }
 
-function findAppFiles(cwd, userExtensions) {
+async function findAppFiles(cwd, userExtensions) {
   let extensions = [...DEFAULT_EXTENSIONS, ...userExtensions];
   let pathsWithExtensions = extensions.map(extension => 'app/**/*' + extension);
   return globby(pathsWithExtensions, { cwd });
 }
 
-function findInRepoFiles(cwd, userExtensions) {
+async function findInRepoFiles(cwd, userExtensions) {
   let inRepoPaths = findInRepoPaths(cwd);
   let inRepoFolders = joinPaths(inRepoPaths, ['addon', 'app']);
 
@@ -154,7 +154,7 @@ function findExternalTranslationFiles(cwd, config) {
   return findTranslationFiles(cwd, joinPaths('node_modules', config.externalPaths), config);
 }
 
-function findTranslationFiles(cwd, inputFolders, config) {
+async function findTranslationFiles(cwd, inputFolders, config) {
   let translationPaths = joinPaths(inputFolders, ['translations']);
 
   return globby(
