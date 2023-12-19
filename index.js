@@ -142,7 +142,7 @@ async function findInRepoFiles(cwd, userExtensions) {
   return globby(joinPaths(inRepoFolders, pathsWithExtensions), { cwd });
 }
 
-function findOwnTranslationFiles(cwd, config) {
+async function findOwnTranslationFiles(cwd, config) {
   return findTranslationFiles(cwd, ['', ...findInRepoPaths(cwd)], config);
 }
 
