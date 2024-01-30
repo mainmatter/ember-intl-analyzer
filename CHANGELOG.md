@@ -5,6 +5,16 @@
 
 
 
+## v4.5.0 (2024-01-30)
+
+#### :rocket: Enhancement
+* [#648](https://github.com/mainmatter/ember-intl-analyzer/pull/648) Add support for gjs/gts files ([@vstefanovic97](https://github.com/vstefanovic97))
+
+#### Committers: 3
+- Bartlomiej Dudzik ([@BobrImperator](https://github.com/BobrImperator))
+- Michael Kerr ([@Mikek2252](https://github.com/Mikek2252))
+- Vuk ([@vstefanovic97](https://github.com/vstefanovic97))
+
 ## v4.4.0 (2022-08-26)
 
 #### :rocket: Enhancement
