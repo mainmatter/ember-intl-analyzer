@@ -10,7 +10,10 @@ const traverse = require('@babel/traverse').default;
 const Glimmer = require('@glimmer/syntax');
 const Emblem = require('emblem').default;
 const YAML = require('yaml');
-const DEFAULT_EXTENSIONS = ['.js', '.hbs', '.emblem'];
+const DEFAULT_EXTENSIONS = ['.js', '.hbs', '.emblem', '.gjs'];
+const { Preprocessor } = require('content-tag');
+
+let contentTag = new Preprocessor();
 
 async function run(rootDir, options = {}) {
   let log = options.log || console.log;
@@ -30,10 +33,17 @@ async function run(rootDir, options = {}) {
   let analyzeConcatExpression = options.analyzeConcatExpression || config.analyzeConcatExpression;
   let userPlugins = config.babelParserPlugins || [];
   let userExtensions = config.extensions || [];
+  let includeGtsExtension = userExtensions.includes('.gts');
+
   userExtensions = userExtensions.map(extension =>
     extension.startsWith('.') ? extension : `.${extension}`
   );
-  let analyzeOptions = { analyzeConcatExpression, userPlugins, userExtensions };
+  let analyzeOptions = {
+    analyzeConcatExpression,
+    userPlugins,
+    userExtensions,
+    includeGtsExtension,
+  };
 
   log(`${step(1)} 🔍  Finding JS and HBS files...`);
   let appFiles = await findAppFiles(rootDir, userExtensions);
@@ -41,17 +51,14 @@ async function run(rootDir, options = {}) {
   let files = [...appFiles, ...inRepoFiles];
 
   log(`${step(2)} 🔍  Searching for translations keys in JS and HBS files...`);
-  let usedTranslationKeys = await analyzeFiles(rootDir, files, analyzeOptions);
+  let usedTranslationKeys = analyzeFiles(rootDir, files, analyzeOptions);
 
   log(`${step(3)} ⚙️   Checking for unused translations...`);
 
   let ownTranslationFiles = await findOwnTranslationFiles(rootDir, config);
   let externalTranslationFiles = await findExternalTranslationFiles(rootDir, config);
-  let existingOwnTranslationKeys = await analyzeTranslationFiles(rootDir, ownTranslationFiles);
-  let existingExternalTranslationKeys = await analyzeTranslationFiles(
-    rootDir,
-    externalTranslationFiles
-  );
+  let existingOwnTranslationKeys = analyzeTranslationFiles(rootDir, ownTranslationFiles);
+  let existingExternalTranslationKeys = analyzeTranslationFiles(rootDir, externalTranslationFiles);
   let existingTranslationKeys = mergeMaps(
     existingOwnTranslationKeys,
     existingExternalTranslationKeys
@@ -139,7 +146,7 @@ async function findOwnTranslationFiles(cwd, config) {
   return findTranslationFiles(cwd, ['', ...findInRepoPaths(cwd)], config);
 }
 
-async function findExternalTranslationFiles(cwd, config) {
+function findExternalTranslationFiles(cwd, config) {
   if (!config.externalPaths) {
     return [];
   }
@@ -177,11 +184,11 @@ function joinPaths(inputPathOrPaths, outputPaths) {
   }
 }
 
-async function analyzeFiles(cwd, files, options) {
+function analyzeFiles(cwd, files, options) {
   let allTranslationKeys = new Map();
 
   for (let file of files) {
-    let translationKeys = await analyzeFile(cwd, file, options);
+    let translationKeys = analyzeFile(cwd, file, options);
 
     for (let key of translationKeys) {
       if (allTranslationKeys.has(key)) {
@@ -195,11 +202,14 @@ async function analyzeFiles(cwd, files, options) {
   return allTranslationKeys;
 }
 
-async function analyzeFile(cwd, file, options) {
+function analyzeFile(cwd, file, options) {
   let content = fs.readFileSync(`${cwd}/${file}`, 'utf8');
   let extension = path.extname(file).toLowerCase();
+  let { includeGtsExtension } = options;
 
-  if (['.js', ...options.userExtensions].includes(extension)) {
+  if ('.gjs' === extension || (includeGtsExtension && '.gts' === extension)) {
+    return analyzeGJSFile(content, options);
+  } else if (['.js', ...options.userExtensions].includes(extension)) {
     return analyzeJsFile(content, options.userPlugins);
   } else if (extension === '.hbs') {
     return analyzeHbsFile(content, options);
@@ -211,7 +221,52 @@ async function analyzeFile(cwd, file, options) {
   }
 }
 
-async function analyzeJsFile(content, userPlugins) {
+function analyzeGJSFile(gjsGtsContent, options) {
+  const jsTsContent = contentTag.process(gjsGtsContent);
+
+  const ast = BabelParser.parse(jsTsContent, {
+    sourceType: 'module',
+    plugins: [
+      'decorators-legacy',
+      'dynamicImport',
+      'classProperties',
+      'classStaticBlock',
+      ...options.userPlugins,
+    ],
+  });
+
+  let templates = [];
+  traverse(ast, {
+    CallExpression(path) {
+      const { node } = path;
+      let { callee } = node;
+      if (callee.name !== 'template') {
+        return;
+      }
+
+      const callScopeBinding = path.scope.getBinding('template');
+
+      if (
+        callScopeBinding.kind === 'module' &&
+        callScopeBinding.path.parent.source.value === '@ember/template-compiler'
+      ) {
+        const { start, end } = node.arguments[0];
+        const templateContent = jsTsContent.substring(start + 1, end - 1);
+        templates.push(templateContent);
+      }
+    },
+  });
+
+  const keysFromJs = [...analyzeJsFile(jsTsContent, options.userPlugins)];
+
+  const keysFromHbs = templates.reduce((keys, template) => {
+    return [...keys, ...analyzeHbsFile(template, options)];
+  }, []);
+
+  return new Set([...keysFromJs, ...keysFromHbs]);
+}
+
+function analyzeJsFile(content, userPlugins) {
   let translationKeys = new Set();
 
   // parse the JS file
@@ -248,7 +303,7 @@ async function analyzeJsFile(content, userPlugins) {
   return translationKeys;
 }
 
-async function analyzeHbsFile(content, { analyzeConcatExpression = false }) {
+function analyzeHbsFile(content, { analyzeConcatExpression = false }) {
   let translationKeys = new Set();
 
   // parse the HBS file
@@ -325,7 +380,7 @@ async function analyzeHbsFile(content, { analyzeConcatExpression = false }) {
   return translationKeys;
 }
 
-async function analyzeTranslationFiles(cwd, files) {
+function analyzeTranslationFiles(cwd, files) {
   let existingTranslationKeys = new Map();
 
   for (let file of files) {

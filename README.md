@@ -129,6 +129,13 @@ export default {
   babelParserPlugins: ['jsx'],
   extensions: ['.jsx'],
 };
+
+Gts example
+```js
+export default {
+  babelParserPlugins: ['typescript'],
+  extensions: ['.gts'],
+};
 ```
 
 ### `--fix`
