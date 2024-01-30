@@ -51,14 +51,17 @@ async function run(rootDir, options = {}) {
   let files = [...appFiles, ...inRepoFiles];
 
   log(`${step(2)} 🔍  Searching for translations keys in JS and HBS files...`);
-  let usedTranslationKeys = analyzeFiles(rootDir, files, analyzeOptions);
+  let usedTranslationKeys = await analyzeFiles(rootDir, files, analyzeOptions);
 
   log(`${step(3)} ⚙️   Checking for unused translations...`);
 
   let ownTranslationFiles = await findOwnTranslationFiles(rootDir, config);
   let externalTranslationFiles = await findExternalTranslationFiles(rootDir, config);
-  let existingOwnTranslationKeys = analyzeTranslationFiles(rootDir, ownTranslationFiles);
-  let existingExternalTranslationKeys = analyzeTranslationFiles(rootDir, externalTranslationFiles);
+  let existingOwnTranslationKeys = await analyzeTranslationFiles(rootDir, ownTranslationFiles);
+  let existingExternalTranslationKeys = await analyzeTranslationFiles(
+    rootDir,
+    externalTranslationFiles
+  );
   let existingTranslationKeys = mergeMaps(
     existingOwnTranslationKeys,
     existingExternalTranslationKeys
@@ -146,7 +149,7 @@ async function findOwnTranslationFiles(cwd, config) {
   return findTranslationFiles(cwd, ['', ...findInRepoPaths(cwd)], config);
 }
 
-function findExternalTranslationFiles(cwd, config) {
+async function findExternalTranslationFiles(cwd, config) {
   if (!config.externalPaths) {
     return [];
   }
@@ -184,11 +187,11 @@ function joinPaths(inputPathOrPaths, outputPaths) {
   }
 }
 
-function analyzeFiles(cwd, files, options) {
+async function analyzeFiles(cwd, files, options) {
   let allTranslationKeys = new Map();
 
   for (let file of files) {
-    let translationKeys = analyzeFile(cwd, file, options);
+    let translationKeys = await analyzeFile(cwd, file, options);
 
     for (let key of translationKeys) {
       if (allTranslationKeys.has(key)) {
@@ -202,7 +205,7 @@ function analyzeFiles(cwd, files, options) {
   return allTranslationKeys;
 }
 
-function analyzeFile(cwd, file, options) {
+async function analyzeFile(cwd, file, options) {
   let content = fs.readFileSync(`${cwd}/${file}`, 'utf8');
   let extension = path.extname(file).toLowerCase();
   let { includeGtsExtension } = options;
@@ -221,7 +224,7 @@ function analyzeFile(cwd, file, options) {
   }
 }
 
-function analyzeGJSFile(gjsGtsContent, options) {
+async function analyzeGJSFile(gjsGtsContent, options) {
   const jsTsContent = contentTag.process(gjsGtsContent);
 
   const ast = BabelParser.parse(jsTsContent, {
@@ -257,16 +260,18 @@ function analyzeGJSFile(gjsGtsContent, options) {
     },
   });
 
-  const keysFromJs = [...analyzeJsFile(jsTsContent, options.userPlugins)];
+  const keysFromJs = await analyzeJsFile(jsTsContent, options.userPlugins);
 
-  const keysFromHbs = templates.reduce((keys, template) => {
-    return [...keys, ...analyzeHbsFile(template, options)];
-  }, []);
+  let keysFromHbs = [];
+  for (let template of templates) {
+    let keys = await analyzeHbsFile(template, options);
+    keysFromHbs = [...keysFromHbs, ...keys];
+  }
 
   return new Set([...keysFromJs, ...keysFromHbs]);
 }
 
-function analyzeJsFile(content, userPlugins) {
+async function analyzeJsFile(content, userPlugins) {
   let translationKeys = new Set();
 
   // parse the JS file
@@ -303,7 +308,7 @@ function analyzeJsFile(content, userPlugins) {
   return translationKeys;
 }
 
-function analyzeHbsFile(content, { analyzeConcatExpression = false }) {
+async function analyzeHbsFile(content, { analyzeConcatExpression = false }) {
   let translationKeys = new Set();
 
   // parse the HBS file
@@ -380,7 +385,7 @@ function analyzeHbsFile(content, { analyzeConcatExpression = false }) {
   return translationKeys;
 }
 
-function analyzeTranslationFiles(cwd, files) {
+async function analyzeTranslationFiles(cwd, files) {
   let existingTranslationKeys = new Map();
 
   for (let file of files) {
