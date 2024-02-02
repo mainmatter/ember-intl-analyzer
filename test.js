@@ -40,6 +40,9 @@ describe('Test Fixtures', () => {
         /some\.unused\.whitelisted\.translation-(a|b)/,
       ],
     },
+    'custom-t-helpers': {
+      helpers: ['t-error'],
+    },
   };
 
   beforeEach(() => {

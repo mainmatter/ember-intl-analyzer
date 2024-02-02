@@ -33,6 +33,7 @@ async function run(rootDir, options = {}) {
   let analyzeConcatExpression = options.analyzeConcatExpression || config.analyzeConcatExpression;
   let userPlugins = config.babelParserPlugins || [];
   let userExtensions = config.extensions || [];
+  let customHelpers = config.helpers || [];
   let includeGtsExtension = userExtensions.includes('.gts');
 
   userExtensions = userExtensions.map(extension =>
@@ -43,6 +44,7 @@ async function run(rootDir, options = {}) {
     userPlugins,
     userExtensions,
     includeGtsExtension,
+    helpers: customHelpers,
   };
 
   log(`${step(1)} 🔍  Finding JS and HBS files...`);
@@ -333,7 +335,7 @@ async function analyzeJsFile(content, userPlugins) {
   return translationKeys;
 }
 
-async function analyzeHbsFile(content, { analyzeConcatExpression = false }) {
+async function analyzeHbsFile(content, { analyzeConcatExpression = false, helpers = [] }) {
   let translationKeys = new Set();
 
   // parse the HBS file
@@ -384,9 +386,10 @@ async function analyzeHbsFile(content, { analyzeConcatExpression = false }) {
     return [];
   }
 
-  function processNode(node) {
+  function processNode(node, helpers) {
+    let pathNames = ['t', ...helpers];
     if (node.path.type !== 'PathExpression') return;
-    if (node.path.original !== 't') return;
+    if (!pathNames.includes(node.path.original)) return;
     if (node.params.length === 0) return;
 
     for (let key of findKeysInNode(node.params[0])) {
@@ -398,12 +401,12 @@ async function analyzeHbsFile(content, { analyzeConcatExpression = false }) {
   Glimmer.traverse(ast, {
     // handle {{t "foo"}} case
     MustacheStatement(node) {
-      processNode(node);
+      processNode(node, helpers);
     },
 
     // handle {{some-component foo=(t "bar")}} case
     SubExpression(node) {
-      processNode(node);
+      processNode(node, helpers);
     },
   });
 
