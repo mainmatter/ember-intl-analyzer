@@ -48,6 +48,19 @@ To prevent that from happening you can configure a `whitelist`, which accepts an
 array of regular expressions that will be checked when looking for unused
 translations.
 
+### `errorOnUnusedWhitelistEntries`
+
+When using a whitelist to ignore dynamic translation keys, it can be easy to forget
+to clean up the whitelist when an entry is not used anymore. You can opt-in to make
+this analyzer error when this occurs, by setting the `errorOnUnusedWhitelistEntries`
+flag in the configuration file:
+
+```js
+export default {
+  errorOnUnusedWhitelistEntries: true,
+};
+```
+
 ### `analyzeConcatExpression`
 
 If your template contains translations like this:

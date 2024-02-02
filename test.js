@@ -14,6 +14,7 @@ describe('Test Fixtures', () => {
     'external-addon-translations',
     'concat-expression',
     'chosen-translations',
+    'unused-whitelist',
   ];
   let fixturesWithFix = ['remove-unused-translations', 'remove-unused-translations-nested'];
   let fixturesWithConcat = ['concat-expression'];
@@ -31,6 +32,13 @@ describe('Test Fixtures', () => {
     'first-class-component-templates': {
       babelParserPlugins: ['typescript'],
       extensions: ['.gts'],
+    },
+    'unused-whitelist': {
+      errorOnUnusedWhitelistEntries: true,
+      whitelist: [
+        /some\.whitelisted\.translation-(a|b)/,
+        /some\.unused\.whitelisted\.translation-(a|b)/,
+      ],
     },
   };
 
