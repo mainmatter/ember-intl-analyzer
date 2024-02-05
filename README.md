@@ -156,6 +156,21 @@ If your application has a lot of unused translations you can run the command wit
 the `--fix` to remove them. Remember to double check your translations as dynamic
 translations need to be whitelisted or they will be removed!
 
+### `Custom t helpers`
+
+By default this package will only check templates for `ember-intl`'s `t` helper, but
+in some cases you may want to create a custom wrapping helper e.g. `{{t-error 'error.key' error}}`
+this helper could manage generic error situation but also accept a custom error key.
+If your app uses custom `t` helpers you can register them in you config under the helpers key.
+
+**Note: This requires the translation key to be the first parameter of the helper**
+
+```js
+export default {
+  helpers: ['t-error'],
+};
+```
+
 Caveats
 ------------------------------------------------------------------------------
 
