@@ -309,14 +309,18 @@ async function analyzeJsFile(content, userPlugins) {
 
   // find translation keys in the syntax tree
   traverse(ast, {
-    // handle this.intl.t('foo') case
     CallExpression({ node }) {
       let { callee } = node;
-      if (callee.type !== 'MemberExpression') return;
-      if (callee.property.type !== 'Identifier') return;
-      if (callee.property.name !== 't') return;
-
       if (node.arguments.length === 0) return;
+
+      if (callee.type === 'MemberExpression') {
+        // handle this.intl.t('foo') case
+        if (callee.property.type !== 'Identifier') return;
+        if (callee.property.name !== 't') return;
+      } else if (callee.type === 'Identifier') {
+        // handle t('foo') case
+        if (callee.name !== 't') return;
+      } else return;
 
       let firstParam = node.arguments[0];
       if (firstParam.type === 'StringLiteral') {
