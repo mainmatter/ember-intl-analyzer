@@ -5,6 +5,26 @@
 
 
 
+
+## v4.6.0 (2024-02-22)
+
+#### :rocket: Enhancement
+* [#656](https://github.com/mainmatter/ember-intl-analyzer/pull/656) handles `t('my-key')` in JS files ([@poulet42](https://github.com/poulet42))
+* [#655](https://github.com/mainmatter/ember-intl-analyzer/pull/655) Add custom t helper support ([@Mikek2252](https://github.com/Mikek2252))
+* [#649](https://github.com/mainmatter/ember-intl-analyzer/pull/649) Add support for listing redundant whitelist entries ([@robinborst95](https://github.com/robinborst95))
+* [#648](https://github.com/mainmatter/ember-intl-analyzer/pull/648) Add support for gjs/gts files ([@vstefanovic97](https://github.com/vstefanovic97))
+
+#### :house: Internal
+* [#652](https://github.com/mainmatter/ember-intl-analyzer/pull/652) Update dependency eslint-config-prettier to v9.1.0 ([@renovate[bot]](https://github.com/apps/renovate))
+* [#651](https://github.com/mainmatter/ember-intl-analyzer/pull/651) Update dependency eslint to v8.56.0 ([@renovate[bot]](https://github.com/apps/renovate))
+
+#### Committers: 5
+- Bartlomiej Dudzik ([@BobrImperator](https://github.com/BobrImperator))
+- Corentin ([@poulet42](https://github.com/poulet42))
+- Michael Kerr ([@Mikek2252](https://github.com/Mikek2252))
+- Robin Borst  ([@robinborst95](https://github.com/robinborst95))
+- Vuk ([@vstefanovic97](https://github.com/vstefanovic97))
+
 ## v4.5.0 (2024-01-30)
 
 #### :rocket: Enhancement
