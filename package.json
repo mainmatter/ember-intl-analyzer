@@ -8,7 +8,8 @@
   "author": "Tobias Bieniek <tobias.bieniek@gmail.com>",
   "files": [
     "bin",
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "bin": {
     "ember-intl-analyzer": "bin/cli.js"
