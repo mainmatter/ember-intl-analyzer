@@ -334,6 +334,13 @@ async function analyzeJsFile(content, userPlugins) {
         }
       }
     },
+    TaggedTemplateExpression({ node }) {
+      if (node.tag.name !== 'translationKey') return;
+      if (node.quasi.quasis.length === 0) return;
+
+      // handle translationKey`foo.bar` case
+      translationKeys.add(node.quasi.quasis[0].value.raw);
+    },
   });
 
   return translationKeys;
