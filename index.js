@@ -571,4 +571,8 @@ function mergeMaps(mapA, mapB) {
   return resultMap;
 }
 
-module.exports = { run, generateFileList };
+function translationKey(strings) {
+  return strings[0];
+}
+
+module.exports = { run, generateFileList, translationKey };
