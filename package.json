@@ -9,7 +9,8 @@
   "files": [
     "bin",
     "index.js",
-    "index.d.ts"
+    "translation-key.js",
+    "translation-key.d.ts"
   ],
   "bin": {
     "ember-intl-analyzer": "bin/cli.js"
