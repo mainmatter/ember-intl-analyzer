@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { run, generateFileList } = require('./index');
+const { translationKey } = require('./translation-key');
 
 let fixtures = fs.readdirSync(`${__dirname}/fixtures/`);
 
@@ -95,5 +96,11 @@ describe('generateFileList', () => {
 
   test('passing an empty array throws an error', () => {
     expect(() => generateFileList([])).toThrow('Unexpected empty file list');
+  });
+});
+
+describe('translationKey', () => {
+  test('util returns the exact same string', () => {
+    expect(translationKey`some.translation.key`).toBe('some.translation.key');
   });
 });
