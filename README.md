@@ -171,6 +171,20 @@ export default {
 };
 ```
 
+Discover stand-alone translation keys 
+------------------------------------------------------------------------------
+
+By default, only translation keys which are immediately translated are picked up by the analyzer. If you have translation keys which are not immediately translated, but are used in your application, you can mark them using the `translationKey` tagged template util.
+
+```diff
++ import { translationKey } from 'ember-intl-analyzer/translation-key';
+
+- const thisIsAKey = 'this.is.a.key';
++ const thisIsAKey = translationKey`this.is.a.key`;
+```
+
+This will mark the key `this.is.a.key` as used in your application, and it will not be flagged as unused by the analyzer. This can be a useful tool to mark keys which are used in your application, so they don't have to be added to the whitelist.
+
 Caveats
 ------------------------------------------------------------------------------
 
