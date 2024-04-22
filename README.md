@@ -177,7 +177,7 @@ Discover stand-alone translation keys
 By default, only translation keys which are immediately translated are picked up by the analyzer. If you have translation keys which are not immediately translated, but are used in your application, you can mark them using the `translationKey` tagged template util.
 
 ```diff
-+ import { translationKey } from 'ember-intl-analyzer';
++ import { translationKey } from 'ember-intl-analyzer/translation-key';
 
 - const thisIsAKey = 'this.is.a.key';
 + const thisIsAKey = translationKey`this.is.a.key`;
