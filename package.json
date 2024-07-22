@@ -28,7 +28,7 @@
     "emblem": "^0.12.1",
     "esm": "^3.2.25",
     "globby": "^11.0.3",
-    "pkg-dir": "^5.0.0",
+    "pkg-dir": "^8.0.0",
     "yaml": "^1.10.2"
   },
   "devDependencies": {
