@@ -239,6 +239,8 @@ async function analyzeFile(cwd, file, options) {
 
   if ('.gjs' === extension || (includeGtsExtension && '.gts' === extension)) {
     return analyzeGJSFile(content, options);
+  } else if (['.tsx', '.jsx'].includes(extension)) {
+    return analyzeJsxFile(content, options.userPlugins);
   } else if (['.js', ...options.userExtensions].includes(extension)) {
     return analyzeJsFile(content, options.userPlugins);
   } else if (extension === '.hbs') {
@@ -296,6 +298,52 @@ async function analyzeGJSFile(gjsGtsContent, options) {
   }
 
   return new Set([...keysFromJs, ...keysFromHbs]);
+}
+
+async function analyzeJsxFile(content, userPlugins) {
+  let translationKeys = new Set();
+
+  let ast = BabelParser.parse(content, {
+    sourceType: 'module',
+    plugins: ['jsx', 'typescript', 'dynamicImport', ...userPlugins],
+  });
+
+  // store ids passed to the <FormattedMessage> component in the translationKeys set
+  traverse(ast, {
+    JSXOpeningElement({ node }) {
+      if (node.name.type === 'JSXIdentifier' && node.name.name === 'FormattedMessage') {
+        for (let attribute of node.attributes) {
+          if (attribute.type === 'JSXAttribute' && attribute.name.name === 'id') {
+            translationKeys.add(attribute.value.value);
+          }
+        }
+      }
+    },
+    // store ids passed to the t function in the translationKeys set
+    CallExpression({ node }) {
+      let { callee } = node;
+      if (node.arguments.length === 0) return;
+
+      if (callee.type === 'Identifier') {
+        // handle t('foo') case
+        if (callee.name !== 't') return;
+      } else return;
+
+      let firstParam = node.arguments[0];
+      if (firstParam.type === 'StringLiteral') {
+        translationKeys.add(firstParam.value);
+      } else if (firstParam.type === 'ConditionalExpression') {
+        if (firstParam.alternate.type === 'StringLiteral') {
+          translationKeys.add(firstParam.alternate.value);
+        }
+        if (firstParam.consequent.type === 'StringLiteral') {
+          translationKeys.add(firstParam.consequent.value);
+        }
+      }
+    },
+  });
+
+  return translationKeys;
 }
 
 async function analyzeJsFile(content, userPlugins) {
