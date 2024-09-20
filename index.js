@@ -313,7 +313,7 @@ async function analyzeJsxFile(content, userPlugins) {
     JSXOpeningElement({ node }) {
       if (node.name.type === 'JSXIdentifier' && node.name.name === 'FormattedMessage') {
         for (let attribute of node.attributes) {
-          if (attribute.type === 'JSXAttribute' && attribute.name.name === 'id') {
+          if (attribute.type === 'JSXAttribute' && attribute.name.name === 'id' && attribute.value?.type === 'StringLiteral') {
             translationKeys.add(attribute.value.value);
           }
         }
@@ -324,23 +324,50 @@ async function analyzeJsxFile(content, userPlugins) {
       let { callee } = node;
       if (node.arguments.length === 0) return;
 
-      if (callee.type === 'Identifier') {
-        // handle t('foo') case
-        if (callee.name !== 't') return;
-      } else return;
-
-      let firstParam = node.arguments[0];
-      if (firstParam.type === 'StringLiteral') {
-        translationKeys.add(firstParam.value);
-      } else if (firstParam.type === 'ConditionalExpression') {
-        if (firstParam.alternate.type === 'StringLiteral') {
-          translationKeys.add(firstParam.alternate.value);
-        }
-        if (firstParam.consequent.type === 'StringLiteral') {
-          translationKeys.add(firstParam.consequent.value);
+      // handle t('foo') case
+      if (callee.type === 'Identifier' && callee.name === 't') {
+        let firstParam = node.arguments[0];
+        if (firstParam.type === 'StringLiteral') {
+          translationKeys.add(firstParam.value);
+        } else if (firstParam.type === 'ConditionalExpression') {
+          if (firstParam.alternate.type === 'StringLiteral') {
+            translationKeys.add(firstParam.alternate.value);
+          }
+          if (firstParam.consequent.type === 'StringLiteral') {
+            translationKeys.add(firstParam.consequent.value);
+          }
         }
       }
-    },
+      // handle intl.formatMessage({ id: 'foo' }) case
+      else if (
+        callee.type === 'MemberExpression' &&
+        callee.object.type === 'Identifier' &&
+        callee.object.name === 'intl' &&
+        callee.property.type === 'Identifier' &&
+        callee.property.name === 'formatMessage'
+      ) {
+        let firstParam = node.arguments[0];
+        if (firstParam.type === 'ObjectExpression') {
+          for (let property of firstParam.properties) {
+            if (property.type === 'ObjectProperty' && property.key.type === 'Identifier' && property.key.name === 'id') {
+              // if it's a string literal, add it to the translationKeys set
+              if (property.value.type === 'StringLiteral') {
+                translationKeys.add(property.value.value);
+              }
+              // else, if it's a ternary operator, add the consequent and alternate to the translationKeys set
+              else if (property.value.type === 'ConditionalExpression') {
+                if (property.value.alternate.type === 'StringLiteral') {
+                  translationKeys.add(property.value.alternate.value);
+                }
+                if (property.value.consequent.type === 'StringLiteral') {
+                  translationKeys.add(property.value.consequent.value);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   });
 
   return translationKeys;
