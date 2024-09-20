@@ -313,8 +313,23 @@ async function analyzeJsxFile(content, userPlugins) {
     JSXOpeningElement({ node }) {
       if (node.name.type === 'JSXIdentifier' && node.name.name === 'FormattedMessage') {
         for (let attribute of node.attributes) {
-          if (attribute.type === 'JSXAttribute' && attribute.name.name === 'id' && attribute.value?.type === 'StringLiteral') {
-            translationKeys.add(attribute.value.value);
+          if (
+            attribute.type === 'JSXAttribute' &&
+            attribute.name.name === 'id' &&
+            attribute.value
+          ) {
+            if (attribute.value.type === 'StringLiteral') {
+              translationKeys.add(attribute.value.value);
+            } else if (attribute.value.type === 'JSXExpressionContainer') {
+              if (attribute.value.expression.type === 'ConditionalExpression') {
+                if (attribute.value.expression.alternate.type === 'StringLiteral') {
+                  translationKeys.add(attribute.value.expression.alternate.value);
+                }
+                if (attribute.value.expression.consequent.type === 'StringLiteral') {
+                  translationKeys.add(attribute.value.expression.consequent.value);
+                }
+              }
+            }
           }
         }
       }
@@ -349,7 +364,11 @@ async function analyzeJsxFile(content, userPlugins) {
         let firstParam = node.arguments[0];
         if (firstParam.type === 'ObjectExpression') {
           for (let property of firstParam.properties) {
-            if (property.type === 'ObjectProperty' && property.key.type === 'Identifier' && property.key.name === 'id') {
+            if (
+              property.type === 'ObjectProperty' &&
+              property.key.type === 'Identifier' &&
+              property.key.name === 'id'
+            ) {
               // if it's a string literal, add it to the translationKeys set
               if (property.value.type === 'StringLiteral') {
                 translationKeys.add(property.value.value);
@@ -367,7 +386,7 @@ async function analyzeJsxFile(content, userPlugins) {
           }
         }
       }
-    }
+    },
   });
 
   return translationKeys;
