@@ -1,5 +1,8 @@
 {
   "jsx-translation": "JSX but in german!",
   "hook-translation": "Hook but in german!",
+  "hook-translation-new": "new hook but in german!",
+  "hook-alternate": "Ich bin in a ternary!",
+  "hook-consequent": "Ich also bin in a ternary!",
   "tsx-translation": "TSX but in german!"
 }

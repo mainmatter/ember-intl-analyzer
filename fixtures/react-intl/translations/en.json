@@ -1,5 +1,8 @@
 {
   "jsx-translation": "JSX!",
   "hook-translation": "Hook!",
+  "hook-translation-new": "new hook!",
+  "hook-alternate": "I'm in a ternary!",
+  "hook-consequent": "I'm also in a ternary!",
   "tsx-translation": "TSX!"
 }
