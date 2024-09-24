@@ -44,8 +44,8 @@ describe('Test Fixtures', () => {
       helpers: ['t-error'],
     },
     'react-intl': {
-      extensions: ['.jsx', '.tsx'],
-    }
+      extensions: ['.jsx', '.tsx', '.ts'],
+    },
   };
 
   beforeEach(() => {
