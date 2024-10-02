@@ -4,5 +4,6 @@
   "hook-alternate": "Ich bin in a ternary!",
   "hook-consequent": "Ich also bin in a ternary!",
   "tsx-translation": "TSX but in german!",
-  "my-custom-hook-translation": "I'm from a .ts file! But in german!"
+  "my-custom-hook-translation": "I'm from a .ts file! But in german!",
+  "hook-translation-destructured": "I'm from a destructured intl hook return! (but german)"
 }

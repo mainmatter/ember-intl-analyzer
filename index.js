@@ -371,11 +371,12 @@ async function analyzeJsxFile(content, userPlugins) {
 
 function isIntlFormatMessageCall(node) {
   return (
-    node.callee.type === 'MemberExpression' &&
-    node.callee.object.type === 'Identifier' &&
-    node.callee.object.name === 'intl' &&
-    node.callee.property.type === 'Identifier' &&
-    node.callee.property.name === 'formatMessage'
+    (node.callee.type === 'Identifier' && node.callee.name === 'formatMessage') ||
+    (node.callee.type === 'MemberExpression' &&
+      node.callee.object.type === 'Identifier' &&
+      node.callee.object.name === 'intl' &&
+      node.callee.property.type === 'Identifier' &&
+      node.callee.property.name === 'formatMessage')
   );
 }
 
