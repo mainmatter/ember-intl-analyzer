@@ -142,6 +142,7 @@ export default {
   babelParserPlugins: ['jsx'],
   extensions: ['.jsx'],
 };
+```
 
 Gts example
 ```js
