@@ -1,16 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches:
-      - master
-      - main
-      - 'v*'
-    tags:
-      - 'v*'
-  pull_request:
-  schedule:
-    - cron: '0 3 * * *' # daily, at 3am
+on: [push, pull_request]
 
 jobs:
   tests:
