@@ -221,12 +221,12 @@ exports[`Test Fixtures remove-unused-translations 1`] = `
 exports[`Test Fixtures remove-unused-translations 2`] = `
 Map {
   "translations/de.json" => "{
-  \\"hbs-translation\\": \\"Lenkstage\\",
-  \\"js-translation\\": \\"Affentheater\\"
+  "hbs-translation": "Lenkstage",
+  "js-translation": "Affentheater"
 }",
   "translations/en.json" => "{
-  \\"hbs-translation\\": \\"HBS!\\",
-  \\"js-translation\\": \\"JS!\\"
+  "hbs-translation": "HBS!",
+  "js-translation": "JS!"
 }",
 }
 `;
@@ -253,17 +253,17 @@ exports[`Test Fixtures remove-unused-translations-nested 1`] = `
 exports[`Test Fixtures remove-unused-translations-nested 2`] = `
 Map {
   "translations/de.json" => "{
-  \\"hbs-translation\\": \\"Lenkstage\\",
-  \\"js-translation\\": \\"Affentheater\\",
-  \\"parent\\": {
-    \\"secondChild\\": \\"usedKey\\"
+  "hbs-translation": "Lenkstage",
+  "js-translation": "Affentheater",
+  "parent": {
+    "secondChild": "usedKey"
   }
 }",
   "translations/en.json" => "{
-  \\"hbs-translation\\": \\"HBS!\\",
-  \\"js-translation\\": \\"JS!\\",
-  \\"parent\\": {
-    \\"secondChild\\": \\"usedKey\\"
+  "hbs-translation": "HBS!",
+  "js-translation": "JS!",
+  "parent": {
+    "secondChild": "usedKey"
   }
 }",
 }
@@ -299,7 +299,7 @@ exports[`Test Fixtures unused-whitelist 1`] = `
 
  ⚠️   Found 1 unused whitelist entry! Please remove it from the whitelist:
 
-   - /some\\\\.unused\\\\.whitelisted\\\\.translation-(a|b)/
+   - /some\\.unused\\.whitelisted\\.translation-(a|b)/
 "
 `;
 
