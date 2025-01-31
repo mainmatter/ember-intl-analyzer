@@ -24,13 +24,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: yarn install
-      - run: yarn lint
-      - run: yarn test --coverage
+      - run: pnpm install
+      - run: pnpm lint
+      - run: pnpm test --coverage
 
   release:
     name: Release
@@ -42,12 +43,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
       - uses: actions/setup-node@v4
         with:
           node-version: 12
           registry-url: 'https://registry.npmjs.org'
 
-      - run: yarn install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
       - run: npx auto-dist-tag@1 --write
 
