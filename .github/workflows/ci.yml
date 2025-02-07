@@ -1,36 +1,27 @@
 name: CI
 
-on:
-  push:
-    branches:
-      - master
-      - main
-      - "v*"
-    tags:
-      - "v*"
-  pull_request:
-  schedule:
-    - cron: '0 3 * * *' # daily, at 3am
+on: [push, pull_request]
 
 jobs:
   tests:
-    name: "Tests on Node.js ${{ matrix.node-version }}"
+    name: 'Tests on Node.js ${{ matrix.node-version }}'
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: true
       matrix:
-        node-version: ["12", "14", "16"]
+        node-version: ['18', '20', '22']
 
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: yarn install
-      - run: yarn lint
-      - run: yarn test --coverage
+      - run: pnpm install
+      - run: pnpm lint
+      - run: pnpm test
 
   release:
     name: Release
@@ -42,12 +33,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: 12
+          node-version: 18
           registry-url: 'https://registry.npmjs.org'
 
-      - run: yarn install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
       - run: npx auto-dist-tag@1 --write
 
