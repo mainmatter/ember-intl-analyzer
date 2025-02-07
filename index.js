@@ -34,6 +34,7 @@ async function run(rootDir, options = {}) {
   let userPlugins = config.babelParserPlugins || [];
   let userExtensions = config.extensions || [];
   let customHelpers = config.helpers || [];
+  let wrapTranslationsWithNamespace = config.wrapTranslationsWithNamespace || false;
   let includeGtsExtension = userExtensions.includes('.gts');
 
   userExtensions = userExtensions.map(extension =>
@@ -59,10 +60,15 @@ async function run(rootDir, options = {}) {
 
   let ownTranslationFiles = await findOwnTranslationFiles(rootDir, config);
   let externalTranslationFiles = await findExternalTranslationFiles(rootDir, config);
-  let existingOwnTranslationKeys = await analyzeTranslationFiles(rootDir, ownTranslationFiles);
+  let existingOwnTranslationKeys = await analyzeTranslationFiles(
+    rootDir,
+    ownTranslationFiles,
+    wrapTranslationsWithNamespace
+  );
   let existingExternalTranslationKeys = await analyzeTranslationFiles(
     rootDir,
-    externalTranslationFiles
+    externalTranslationFiles,
+    wrapTranslationsWithNamespace
   );
   let existingTranslationKeys = mergeMaps(
     existingOwnTranslationKeys,
@@ -417,21 +423,32 @@ async function analyzeHbsFile(content, { analyzeConcatExpression = false, helper
   return translationKeys;
 }
 
-async function analyzeTranslationFiles(cwd, files) {
-  let existingTranslationKeys = new Map();
+function extractNestedPath(filepath) {
+  const regex = /translations\/(.+)\/(?:[a-z]{2}\.(?:ya?ml|json)|.*)/;
+  return filepath.replace(regex, '$1').replace(/\//g, '.');
+}
 
+async function analyzeTranslationFiles(cwd, files, wrapTranslationsWithNamespace) {
+  let existingTranslationKeys = new Map();
   for (let file of files) {
+    let prefix = '';
+    if (wrapTranslationsWithNamespace) {
+      prefix = extractNestedPath(file) + '.';
+    }
     let content = fs.readFileSync(`${cwd}/${file}`, 'utf8');
     let translations = YAML.parse(content); // json is valid yaml
-    forEachTranslation(translations, key => {
-      if (!existingTranslationKeys.has(key)) {
-        existingTranslationKeys.set(key, new Set());
-      }
+    forEachTranslation(
+      translations,
+      key => {
+        if (!existingTranslationKeys.has(key)) {
+          existingTranslationKeys.set(key, new Set());
+        }
 
-      existingTranslationKeys.get(key).add(file);
-    });
+        existingTranslationKeys.get(key).add(file);
+      },
+      prefix
+    );
   }
-
   return existingTranslationKeys;
 }
 
