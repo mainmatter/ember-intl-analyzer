@@ -1,5 +1,15 @@
 # Changelog
 
+## v5.0.1 (2025-02-07)
+
+#### :house: Internal
+
+- [#703](https://github.com/mainmatter/ember-intl-analyzer/pull/703) Be more specific about the triggers for CI ([@beerinho](https://github.com/beerinho))
+
+#### Committers: 1
+
+- Daniel Beer ([@beerinho](https://github.com/beerinho))
+
 ## v5.0.0 (2025-02-07)
 
 #### :boom: Breaking Change
