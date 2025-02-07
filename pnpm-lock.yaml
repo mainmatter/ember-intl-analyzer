@@ -43,7 +43,7 @@ importers:
         specifier: 9.19.0
         version: 9.19.0
       '@release-it-plugins/lerna-changelog':
-        specifier: ^7.0.0
+        specifier: 7.0.0
         version: 7.0.0(release-it@17.11.0)
       eslint:
         specifier: 9.19.0
@@ -73,7 +73,7 @@ importers:
         specifier: 17.11.0
         version: 17.11.0
       release-it-pnpm:
-        specifier: ^4.6.4
+        specifier: 4.6.4
         version: 4.6.4(release-it@17.11.0)
 
 packages:
