@@ -1,5 +1,19 @@
 # Changelog
 
+## v5.1.0 (2025-02-07)
+
+#### :rocket: Enhancement
+
+- [#704](https://github.com/mainmatter/ember-intl-analyzer/pull/704) Add the ability to analyse nested translation folders ([@beerinho](https://github.com/beerinho))
+
+#### :house: Internal
+
+- [#494](https://github.com/mainmatter/ember-intl-analyzer/pull/494) Update dependency yaml to v2 ([@renovate[bot]](https://github.com/apps/renovate))
+
+#### Committers: 1
+
+- Daniel Beer ([@beerinho](https://github.com/beerinho))
+
 ## v5.0.1 (2025-02-07)
 
 #### :house: Internal
