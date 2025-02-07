@@ -1,5 +1,4 @@
-ember-intl-analyzer
-==============================================================================
+# ember-intl-analyzer
 
 Find unused translations in your Ember.js projects
 
@@ -9,37 +8,31 @@ Find unused translations in your Ember.js projects
 > We offer consulting, training, and team augmentation for Ember.js – check out
 > our [website](https://mainmatter.com/ember-consulting/) to learn more!
 
-Usage
-------------------------------------------------------------------------------
+## Usage
 
 ```bash
 npx ember-intl-analyzer
 ```
 
-
-Configuration
-------------------------------------------------------------------------------
+## Configuration
 
 ember-intl-analyzer can be configured by creating a `config/ember-intl-analyzer.js`
 file in your app:
 
 ```js
 export default {
-  whitelist: [
-    /^countries\./,
-    /^currency\./,
-    /^validations\.errors\./,
-    /^[^.]+\.warnings\.[^.]+$/,
-  ],
+  whitelist: [/^countries\./, /^currency\./, /^validations\.errors\./, /^[^.]+\.warnings\.[^.]+$/],
 };
 ```
 
 ### `whitelist`
 
 If you use dynamic translations keys like this:
+
 ```js
-this.intl.t(`countries.${code}`)
+this.intl.t(`countries.${code}`);
 ```
+
 then ember-intl-analyzer can not easily understand what translation keys are
 being used here. In that case it will ignore the dynamic translation key and
 show the corresponding translations as unused.
@@ -64,15 +57,18 @@ export default {
 ### `analyzeConcatExpression`
 
 If your template contains translations like this:
+
 ```hbs
-{{t (concat "actions." (if @isEditing "save" "publish"))}}
+{{t (concat 'actions.' (if @isEditing 'save' 'publish'))}}
 ```
+
 then ember-intl-analyzer does not detect that `actions.save` and `actions.publish`
 are in fact used translations, so they can be incorrectly flagged as missing or
 unused. As the `concat` helper can make it harder to read, it's encouraged to
 rewrite it to for example:
+
 ```hbs
-{{if @isEditing (t "actions.save") (t "actions.publish")}}
+{{if @isEditing (t 'actions.save') (t 'actions.publish')}}
 ```
 
 However, if your application relies heavily on this `concat` helper, then rewriting
@@ -100,9 +96,11 @@ export default {
 This example will try to find translation files in `node_modules/my-addon/translations`.
 Patterns supported by [`globby`](https://www.npmjs.com/package/globby) are also
 possible here, e.g. this:
+
 ```js
-externalPaths: ['@*/*']
+externalPaths: ['@*/*'];
 ```
+
 will look up translations in scoped addons like `node_modules/@company/scoped-addon/translations`.
 
 ### `translationFiles`
@@ -122,6 +120,16 @@ This example will try to find all `en.yaml` files in the different `translations
 folders, but any patterns supported by [`globby`](https://www.npmjs.com/package/globby) are also
 possible here.
 
+### `wrapTranslationsWithNamespace`
+
+If you are nesting your translations with `ember-intl`s [`wrapTranslationsWithNamespace`](https://ember-intl.github.io/ember-intl/docs/advanced/configuration#wraptranslationswithnamespace) you will need to set the corresponding property within your `ember-intl-analyzer` config file.
+
+```js
+export default {
+  wrapTranslationsWithNamespace: true,
+};
+```
+
 ### `babelParserPlugins` `extensions`
 
 If your application uses doesn't parse correctly because it requires a specific babel plugin you can specifiy them in the config file under the key `babelParserPlugins` a list on plugins can be found [here](https://babeljs.io/docs/en/babel-parser#plugins).
@@ -129,6 +137,7 @@ If your application uses doesn't parse correctly because it requires a specific 
 For example if you would like typescript support you can specify the `typescript` plugin, although please note if the plugin introduces a new file extension you will also need to specifiy that in the `extensions` property. See the examples below.
 
 Typescript example
+
 ```js
 export default {
   babelParserPlugins: ['typescript'],
@@ -137,6 +146,7 @@ export default {
 ```
 
 Jsx example
+
 ```js
 export default {
   babelParserPlugins: ['jsx'],
@@ -145,6 +155,7 @@ export default {
 ```
 
 Gts example
+
 ```js
 export default {
   babelParserPlugins: ['typescript'],
@@ -153,6 +164,7 @@ export default {
 ```
 
 ### `--fix`
+
 If your application has a lot of unused translations you can run the command with
 the `--fix` to remove them. Remember to double check your translations as dynamic
 translations need to be whitelisted or they will be removed!
@@ -172,23 +184,18 @@ export default {
 };
 ```
 
-Caveats
-------------------------------------------------------------------------------
+## Caveats
 
 There are a number of things that we do not support yet. Have a look at the
 [Issues](https://github.com/Mainmatter/ember-intl-analyzer/issues) before using
 this project.
 
-
-Related
-------------------------------------------------------------------------------
+## Related
 
 - [ember-intl](https://github.com/ember-intl/ember-intl) – Internationalization
   addon for Ember.js
 
-
-License
-------------------------------------------------------------------------------
+## License
 
 This projects is developed by and &copy; [Mainmatter GmbH](http://mainmatter.com)
 and contributors. It is released under the [MIT License](LICENSE.md).
