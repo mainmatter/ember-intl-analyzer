@@ -14,4 +14,5 @@ run(rootDir, { fix: process.argv.includes('--fix') })
   })
   .catch(error => {
     console.error(chalk.red(error.stack));
+    process.exitCode = 1;
   });
