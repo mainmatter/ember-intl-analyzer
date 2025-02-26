@@ -43,7 +43,7 @@
     "prettier": "3.5.2",
     "release-plan": "0.13.1"
   },
-  "packageManager": "pnpm@10.5.0",
+  "packageManager": "pnpm@10.5.1",
   "engines": {
     "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
   }
