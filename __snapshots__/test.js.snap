@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Test Fixtures chosen-translations 1`] = `
+exports[`Test Fixtures > chosen-translations 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -14,9 +14,9 @@ exports[`Test Fixtures chosen-translations 1`] = `
 "
 `;
 
-exports[`Test Fixtures chosen-translations 2`] = `Map {}`;
+exports[`Test Fixtures > chosen-translations 2`] = `Map {}`;
 
-exports[`Test Fixtures concat-expression 1`] = `
+exports[`Test Fixtures > concat-expression 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -31,9 +31,9 @@ exports[`Test Fixtures concat-expression 1`] = `
 "
 `;
 
-exports[`Test Fixtures concat-expression 2`] = `Map {}`;
+exports[`Test Fixtures > concat-expression 2`] = `Map {}`;
 
-exports[`Test Fixtures custom-t-helpers 1`] = `
+exports[`Test Fixtures > custom-t-helpers 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -45,9 +45,9 @@ exports[`Test Fixtures custom-t-helpers 1`] = `
 "
 `;
 
-exports[`Test Fixtures custom-t-helpers 2`] = `Map {}`;
+exports[`Test Fixtures > custom-t-helpers 2`] = `Map {}`;
 
-exports[`Test Fixtures decorators 1`] = `
+exports[`Test Fixtures > decorators 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -59,9 +59,9 @@ exports[`Test Fixtures decorators 1`] = `
 "
 `;
 
-exports[`Test Fixtures decorators 2`] = `Map {}`;
+exports[`Test Fixtures > decorators 2`] = `Map {}`;
 
-exports[`Test Fixtures embedded-conditionals 1`] = `
+exports[`Test Fixtures > embedded-conditionals 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -73,9 +73,9 @@ exports[`Test Fixtures embedded-conditionals 1`] = `
 "
 `;
 
-exports[`Test Fixtures embedded-conditionals 2`] = `Map {}`;
+exports[`Test Fixtures > embedded-conditionals 2`] = `Map {}`;
 
-exports[`Test Fixtures emblem 1`] = `
+exports[`Test Fixtures > emblem 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -89,9 +89,9 @@ exports[`Test Fixtures emblem 1`] = `
 "
 `;
 
-exports[`Test Fixtures emblem 2`] = `Map {}`;
+exports[`Test Fixtures > emblem 2`] = `Map {}`;
 
-exports[`Test Fixtures external-addon-translations 1`] = `
+exports[`Test Fixtures > external-addon-translations 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -105,9 +105,9 @@ exports[`Test Fixtures external-addon-translations 1`] = `
 "
 `;
 
-exports[`Test Fixtures external-addon-translations 2`] = `Map {}`;
+exports[`Test Fixtures > external-addon-translations 2`] = `Map {}`;
 
-exports[`Test Fixtures first-class-component-templates 1`] = `
+exports[`Test Fixtures > first-class-component-templates 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -119,9 +119,9 @@ exports[`Test Fixtures first-class-component-templates 1`] = `
 "
 `;
 
-exports[`Test Fixtures first-class-component-templates 2`] = `Map {}`;
+exports[`Test Fixtures > first-class-component-templates 2`] = `Map {}`;
 
-exports[`Test Fixtures in-repo-translations 1`] = `
+exports[`Test Fixtures > in-repo-translations 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -139,9 +139,9 @@ exports[`Test Fixtures in-repo-translations 1`] = `
 "
 `;
 
-exports[`Test Fixtures in-repo-translations 2`] = `Map {}`;
+exports[`Test Fixtures > in-repo-translations 2`] = `Map {}`;
 
-exports[`Test Fixtures just-t-func 1`] = `
+exports[`Test Fixtures > just-t-func 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -153,9 +153,9 @@ exports[`Test Fixtures just-t-func 1`] = `
 "
 `;
 
-exports[`Test Fixtures just-t-func 2`] = `Map {}`;
+exports[`Test Fixtures > just-t-func 2`] = `Map {}`;
 
-exports[`Test Fixtures missing-translations 1`] = `
+exports[`Test Fixtures > missing-translations 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -170,9 +170,9 @@ exports[`Test Fixtures missing-translations 1`] = `
 "
 `;
 
-exports[`Test Fixtures missing-translations 2`] = `Map {}`;
+exports[`Test Fixtures > missing-translations 2`] = `Map {}`;
 
-exports[`Test Fixtures nested-keys 1`] = `
+exports[`Test Fixtures > nested-keys 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -184,9 +184,9 @@ exports[`Test Fixtures nested-keys 1`] = `
 "
 `;
 
-exports[`Test Fixtures nested-keys 2`] = `Map {}`;
+exports[`Test Fixtures > nested-keys 2`] = `Map {}`;
 
-exports[`Test Fixtures no-issues 1`] = `
+exports[`Test Fixtures > no-issues 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -198,9 +198,9 @@ exports[`Test Fixtures no-issues 1`] = `
 "
 `;
 
-exports[`Test Fixtures no-issues 2`] = `Map {}`;
+exports[`Test Fixtures > no-issues 2`] = `Map {}`;
 
-exports[`Test Fixtures plugin-config 1`] = `
+exports[`Test Fixtures > plugin-config 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -212,9 +212,9 @@ exports[`Test Fixtures plugin-config 1`] = `
 "
 `;
 
-exports[`Test Fixtures plugin-config 2`] = `Map {}`;
+exports[`Test Fixtures > plugin-config 2`] = `Map {}`;
 
-exports[`Test Fixtures remove-unused-translations 1`] = `
+exports[`Test Fixtures > remove-unused-translations 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -232,7 +232,7 @@ exports[`Test Fixtures remove-unused-translations 1`] = `
 "
 `;
 
-exports[`Test Fixtures remove-unused-translations 2`] = `
+exports[`Test Fixtures > remove-unused-translations 2`] = `
 Map {
   "translations/de.json" => "{
   "hbs-translation": "Lenkstage",
@@ -245,7 +245,7 @@ Map {
 }
 `;
 
-exports[`Test Fixtures remove-unused-translations-nested 1`] = `
+exports[`Test Fixtures > remove-unused-translations-nested 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -264,7 +264,7 @@ exports[`Test Fixtures remove-unused-translations-nested 1`] = `
 "
 `;
 
-exports[`Test Fixtures remove-unused-translations-nested 2`] = `
+exports[`Test Fixtures > remove-unused-translations-nested 2`] = `
 Map {
   "translations/de.json" => "{
   "hbs-translation": "Lenkstage",
@@ -283,7 +283,7 @@ Map {
 }
 `;
 
-exports[`Test Fixtures unused-translations 1`] = `
+exports[`Test Fixtures > unused-translations 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -299,9 +299,9 @@ exports[`Test Fixtures unused-translations 1`] = `
 "
 `;
 
-exports[`Test Fixtures unused-translations 2`] = `Map {}`;
+exports[`Test Fixtures > unused-translations 2`] = `Map {}`;
 
-exports[`Test Fixtures unused-whitelist 1`] = `
+exports[`Test Fixtures > unused-whitelist 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -317,9 +317,9 @@ exports[`Test Fixtures unused-whitelist 1`] = `
 "
 `;
 
-exports[`Test Fixtures unused-whitelist 2`] = `Map {}`;
+exports[`Test Fixtures > unused-whitelist 2`] = `Map {}`;
 
-exports[`Test Fixtures yaml-translations 1`] = `
+exports[`Test Fixtures > yaml-translations 1`] = `
 "[1/4] 🔍  Finding JS and HBS files...
 [2/4] 🔍  Searching for translations keys in JS and HBS files...
 [3/4] ⚙️   Checking for unused translations...
@@ -331,4 +331,4 @@ exports[`Test Fixtures yaml-translations 1`] = `
 "
 `;
 
-exports[`Test Fixtures yaml-translations 2`] = `Map {}`;
+exports[`Test Fixtures > yaml-translations 2`] = `Map {}`;
