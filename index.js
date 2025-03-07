@@ -29,7 +29,7 @@ async function run(rootDir, options = {}) {
   const NUM_STEPS = 4;
   const step = num => chalk.dim(`[${num}/${NUM_STEPS}]`);
 
-  let config = options.config || readConfig(rootDir);
+  let config = options.config || (await readConfig(rootDir));
   let analyzeConcatExpression = options.analyzeConcatExpression || config.analyzeConcatExpression;
   let userPlugins = config.babelParserPlugins || [];
   let userExtensions = config.extensions || [];
@@ -150,13 +150,23 @@ async function run(rootDir, options = {}) {
   return totalErrors > 0 && !shouldFix ? 1 : 0;
 }
 
-function readConfig(cwd) {
-  let configPath = `${cwd}/config/ember-intl-analyzer.js`;
+async function readConfig(cwd) {
+  let configPathBase = `${cwd}/config/ember-intl-analyzer`;
+  let configPathESM = configPathBase + '.mjs';
+  let configPathCJS = configPathBase + '.cjs';
+  let configPathFallback = configPathBase + '.js';
 
   let config = {};
-  if (fs.existsSync(configPath)) {
-    let requireESM = require('esm')(module, { cjs: { dedefault: true } });
-    config = requireESM(configPath);
+  if (fs.existsSync(configPathESM)) {
+    config = (await import(configPathESM)).default;
+  } else if (fs.existsSync(configPathCJS)) {
+    config = require(configPathCJS);
+  } else if (fs.existsSync(configPathFallback)) {
+    try {
+      config = (await import(configPathFallback)).default;
+    } catch {
+      config = require(configPathFallback);
+    }
   }
 
   return config;
