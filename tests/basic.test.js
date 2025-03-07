@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { run, generateFileList } = require('./index');
+const { run, generateFileList } = require('../index');
 import { describe, beforeEach, test, expect } from 'vitest';
 
 let fixtures = fs.readdirSync(`${__dirname}/fixtures/`);
