@@ -155,8 +155,13 @@ function readConfig(cwd) {
 
   let config = {};
   if (fs.existsSync(configPath)) {
-    let requireESM = require('esm')(module, { cjs: { dedefault: true } });
-    config = requireESM(configPath);
+    const majorNodeVersion = parseInt(process.version.slice(1).split('.')[0], 10);
+    if (majorNodeVersion < 22) {
+      let requireESM = require('esm')(module, { cjs: { dedefault: true } });
+      config = requireESM(configPath);
+    } else {
+      config = require(configPath).default;
+    }
   }
 
   return config;
