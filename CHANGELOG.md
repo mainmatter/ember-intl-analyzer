@@ -1,5 +1,19 @@
 # Changelog
 
+## Release (2025-03-10)
+
+ember-intl-analyzer 5.1.1 (patch)
+
+#### :house: Internal
+* `ember-intl-analyzer`
+  * [#740](https://github.com/mainmatter/ember-intl-analyzer/pull/740) move tests into a test folder ([@mansona](https://github.com/mansona))
+  * [#735](https://github.com/mainmatter/ember-intl-analyzer/pull/735) convert to vitest ([@mansona](https://github.com/mansona))
+  * [#705](https://github.com/mainmatter/ember-intl-analyzer/pull/705) Replace release-it with release-plan ([@beerinho](https://github.com/beerinho))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Daniel Beer ([@beerinho](https://github.com/beerinho))
+
 ## v5.1.0 (2025-02-07)
 
 #### :rocket: Enhancement
