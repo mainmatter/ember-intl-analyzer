@@ -43,7 +43,7 @@
     "release-plan": "0.13.1",
     "vitest": "3.0.9"
   },
-  "packageManager": "pnpm@10.6.4",
+  "packageManager": "pnpm@10.6.5",
   "engines": {
     "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
   }
