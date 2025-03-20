@@ -1,0 +1,21 @@
+{
+  "solution": {
+    "ember-intl-analyzer": {
+      "impact": "major",
+      "oldVersion": "5.1.0",
+      "newVersion": "6.0.0",
+      "constraints": [
+        {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./package.json"
+    }
+  },
+  "description": "## Release (2025-03-20)\n\nember-intl-analyzer 6.0.0 (major)\n\n#### :boom: Breaking Change\n* `ember-intl-analyzer`\n  * [#738](https://github.com/mainmatter/ember-intl-analyzer/pull/738) Fix loading config files - stop depending on deprecated esm package ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `ember-intl-analyzer`\n  * [#740](https://github.com/mainmatter/ember-intl-analyzer/pull/740) move tests into a test folder ([@mansona](https://github.com/mansona))\n  * [#735](https://github.com/mainmatter/ember-intl-analyzer/pull/735) convert to vitest ([@mansona](https://github.com/mansona))\n  * [#705](https://github.com/mainmatter/ember-intl-analyzer/pull/705) Replace release-it with release-plan ([@beerinho](https://github.com/beerinho))\n\n#### Committers: 2\n- Chris Manson ([@mansona](https://github.com/mansona))\n- Daniel Beer ([@beerinho](https://github.com/beerinho))\n"
+}

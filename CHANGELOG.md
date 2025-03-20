@@ -1,5 +1,23 @@
 # Changelog
 
+## Release (2025-03-20)
+
+ember-intl-analyzer 6.0.0 (major)
+
+#### :boom: Breaking Change
+* `ember-intl-analyzer`
+  * [#738](https://github.com/mainmatter/ember-intl-analyzer/pull/738) Fix loading config files - stop depending on deprecated esm package ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `ember-intl-analyzer`
+  * [#740](https://github.com/mainmatter/ember-intl-analyzer/pull/740) move tests into a test folder ([@mansona](https://github.com/mansona))
+  * [#735](https://github.com/mainmatter/ember-intl-analyzer/pull/735) convert to vitest ([@mansona](https://github.com/mansona))
+  * [#705](https://github.com/mainmatter/ember-intl-analyzer/pull/705) Replace release-it with release-plan ([@beerinho](https://github.com/beerinho))
+
+#### Committers: 2
+- Chris Manson ([@mansona](https://github.com/mansona))
+- Daniel Beer ([@beerinho](https://github.com/beerinho))
+
 ## v5.1.0 (2025-02-07)
 
 #### :rocket: Enhancement
