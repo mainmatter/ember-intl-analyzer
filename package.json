@@ -27,7 +27,6 @@
     "chalk": "^4.1.1",
     "content-tag": "^1.1.2",
     "emblem": "^0.12.1",
-    "esm": "^3.2.25",
     "globby": "^11.0.3",
     "pkg-dir": "^5.0.0",
     "yaml": "^2.0.0"
@@ -38,6 +37,7 @@
     "eslint-config-prettier": "10.1.1",
     "eslint-plugin-n": "17.16.2",
     "eslint-plugin-prettier": "5.2.3",
+    "execa": "^9.5.2",
     "globals": "15.15.0",
     "prettier": "3.5.3",
     "release-plan": "0.13.1",
