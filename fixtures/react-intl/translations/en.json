@@ -1,5 +1,6 @@
 {
   "jsx-translation": "JSX!",
+  "jsx-translation-html": "<em>JSX!</em>",
   "hook-translation-new": "new hook!",
   "hook-alternate": "I'm in a ternary!",
   "hook-consequent": "I'm also in a ternary!",

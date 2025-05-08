@@ -308,10 +308,13 @@ async function analyzeJsxFile(content, userPlugins) {
     plugins: ['jsx', 'typescript', 'dynamicImport', ...userPlugins],
   });
 
-  // store ids passed to the <FormattedMessage> component in the translationKeys set
+  // store ids passed to the <FormattedMessage> and <FormattedHTMLMessage> components in the translationKeys set
   traverse(ast, {
     JSXOpeningElement({ node }) {
-      if (node.name.type === 'JSXIdentifier' && node.name.name === 'FormattedMessage') {
+      if (
+        node.name.type === 'JSXIdentifier' &&
+        ['FormattedMessage', 'FormattedHTMLMessage'].includes(node.name.name)
+      ) {
         for (let attribute of node.attributes) {
           if (
             attribute.type === 'JSXAttribute' &&
