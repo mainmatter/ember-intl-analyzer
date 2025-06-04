@@ -15,8 +15,8 @@ importers:
         specifier: ^7.13.17
         version: 7.27.1
       '@glimmer/syntax':
-        specifier: ^0.80.0
-        version: 0.80.3
+        specifier: ^0.94.0
+        version: 0.94.2
       chalk:
         specifier: ^4.1.1
         version: 4.1.2
@@ -341,17 +341,17 @@ packages:
   '@gar/promisify@1.1.3':
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
 
-  '@glimmer/env@0.1.7':
-    resolution: {integrity: sha512-JKF/a9I9jw6fGoz8kA7LEQslrwJ5jms5CXhu/aqkBWk+PmZ6pTl8mlb/eJ/5ujBGTiQzBhy5AIWF712iA+4/mw==}
+  '@glimmer/interfaces@0.94.2':
+    resolution: {integrity: sha512-tDAAJpIyc1N7cYxpZWJElNHRF2+1vTG2W/HNYvvBjzTzoG2WLxtDJqOHCqGcUNqrOxq8ROiZCt/BQ/L3t5r5eg==}
 
-  '@glimmer/interfaces@0.80.3':
-    resolution: {integrity: sha512-38PVcR7uFdFdJnqDNhLMbaluZhJezdwRAJCTkwk/AxlC2bGa6iCv2GDQhErXp1qr26gyO7dt37gbtwLojBDauA==}
+  '@glimmer/syntax@0.94.2':
+    resolution: {integrity: sha512-W6KGEu+P1wRWmDaCAFAJFvNjv+efNME3Im3e6mvg7r4C3n3GwJ+kVmM9e81lFwNUbrYeqKt9WY7nLud/KB4DJA==}
 
-  '@glimmer/syntax@0.80.3':
-    resolution: {integrity: sha512-hACbTpXgNO2l7USDVDUPvXh4Xo9e06sQEyv1QvGn/MK8FKfMkThxOmLrWy/pcEdeePmCMNGMLGgfjG6bO5FCUQ==}
+  '@glimmer/util@0.94.2':
+    resolution: {integrity: sha512-U+y9YVLg+JWCLz9J5o3O6HZ/EdZSrwPmLGI4IfdkflfwSd9QYyZW7/VuIgqkKv9B0BGSUukuttQ/nBWo3uRoTg==}
 
-  '@glimmer/util@0.80.3':
-    resolution: {integrity: sha512-H6u9gPpBrZWfdHAXQyVTsttSJzBfpQ2NWc2Jnh35b7HxPpg0npcLsjIAuba4gHlcsKLwlN42s3O+J8x9weL4gQ==}
+  '@glimmer/wire-format@0.94.2':
+    resolution: {integrity: sha512-hc8MgoxSF+wVbR/WzK5+R96xpusWQrTo3t4KV2Y9Lp/Bq3Z24gx0FnUuIuziD1IxYMxLfKBmCHBpCdgmSf/kAw==}
 
   '@handlebars/parser@2.0.0':
     resolution: {integrity: sha512-EP9uEDZv/L5Qh9IWuMUGJRfwhXJ4h1dqKTT4/3+tY0eu7sPis7xh23j61SYUnNF4vqCQvvUXpDo9Bh/+q1zASA==}
@@ -2575,24 +2575,25 @@ snapshots:
 
   '@gar/promisify@1.1.3': {}
 
-  '@glimmer/env@0.1.7': {}
-
-  '@glimmer/interfaces@0.80.3':
+  '@glimmer/interfaces@0.94.2':
     dependencies:
       '@simple-dom/interface': 1.4.0
 
-  '@glimmer/syntax@0.80.3':
+  '@glimmer/syntax@0.94.2':
     dependencies:
-      '@glimmer/interfaces': 0.80.3
-      '@glimmer/util': 0.80.3
+      '@glimmer/interfaces': 0.94.2
+      '@glimmer/util': 0.94.2
+      '@glimmer/wire-format': 0.94.2
       '@handlebars/parser': 2.0.0
       simple-html-tokenizer: 0.5.11
 
-  '@glimmer/util@0.80.3':
+  '@glimmer/util@0.94.2':
     dependencies:
-      '@glimmer/env': 0.1.7
-      '@glimmer/interfaces': 0.80.3
-      '@simple-dom/interface': 1.4.0
+      '@glimmer/interfaces': 0.94.2
+
+  '@glimmer/wire-format@0.94.2':
+    dependencies:
+      '@glimmer/interfaces': 0.94.2
 
   '@handlebars/parser@2.0.0': {}
 
