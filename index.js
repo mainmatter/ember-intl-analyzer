@@ -145,13 +145,16 @@ async function run(rootDir, options = {}) {
 }
 
 function readConfig(cwd) {
-  let configPath = `${cwd}/config/ember-intl-analyzer.js`;
+  let extensions = ['.js', '.cjs'];
 
   let config = {};
-  if (fs.existsSync(configPath)) {
-    let requireESM = require('esm')(module, { cjs: { dedefault: true } });
-    config = requireESM(configPath);
-  }
+  extensions.forEach(extension => {
+    const configPath = `${cwd}/config/ember-intl-analyzer${extension}`;
+    if (fs.existsSync(configPath)) {
+      let requireESM = require('esm')(module, { cjs: { dedefault: true } });
+      config = requireESM(configPath);
+    }
+  });
 
   return config;
 }
