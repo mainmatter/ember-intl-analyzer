@@ -158,7 +158,7 @@ function readConfig(cwd) {
 
 async function findAppFiles(cwd, userExtensions) {
   let extensions = [...DEFAULT_EXTENSIONS, ...userExtensions];
-  let pathsWithExtensions = extensions.map(extension => 'app/**/*' + extension);
+  let pathsWithExtensions = extensions.map(extension => '{app,src}/**/*' + extension);
   return globby(pathsWithExtensions, { cwd });
 }
 
