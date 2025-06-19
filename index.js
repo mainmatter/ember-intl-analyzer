@@ -145,7 +145,7 @@ async function run(rootDir, options = {}) {
 }
 
 function readConfig(cwd) {
-  let configPath = `${cwd}/config/ember-intl-analyzer.js`;
+  let configPath = (globby.sync(`${cwd}/config/ember-intl-analyzer.{js,cjs}`))[0];
 
   let config = {};
   if (fs.existsSync(configPath)) {
