@@ -149,8 +149,12 @@ function readConfig(cwd) {
 
   let config = {};
   if (fs.existsSync(configPath)) {
-    let requireESM = require('esm')(module, { cjs: { dedefault: true } });
-    config = requireESM(configPath);
+    try {
+      const configModule = require(configPath);
+      config = configModule.default || configModule;
+    } catch (error) {
+      throw new Error(`Failed to load config from ${configPath}.`);
+    }
   }
 
   return config;
