@@ -33,6 +33,7 @@ async function run(rootDir, options = {}) {
   let analyzeConcatExpression = options.analyzeConcatExpression || config.analyzeConcatExpression;
   let userPlugins = config.babelParserPlugins || [];
   let userExtensions = config.extensions || [];
+  let ignoredAppFiles = config.ignoredAppFiles || [];
   let customHelpers = config.helpers || [];
   let includeGtsExtension = userExtensions.includes('.gts');
 
@@ -48,7 +49,7 @@ async function run(rootDir, options = {}) {
   };
 
   log(`${step(1)} 🔍  Finding JS and HBS files...`);
-  let appFiles = await findAppFiles(rootDir, userExtensions);
+  let appFiles = await findAppFiles(rootDir, userExtensions, ignoredAppFiles);
   let inRepoFiles = await findInRepoFiles(rootDir, userExtensions);
   let files = [...appFiles, ...inRepoFiles];
 
@@ -145,7 +146,7 @@ async function run(rootDir, options = {}) {
 }
 
 function readConfig(cwd) {
-  let configPath = (globby.sync(`${cwd}/config/ember-intl-analyzer.{js,cjs}`))[0];
+  let configPath = globby.sync(`${cwd}/config/ember-intl-analyzer.{js,cjs}`)[0];
 
   let config = {};
   if (fs.existsSync(configPath)) {
@@ -156,10 +157,10 @@ function readConfig(cwd) {
   return config;
 }
 
-async function findAppFiles(cwd, userExtensions) {
+async function findAppFiles(cwd, userExtensions, ignoredAppFiles) {
   let extensions = [...DEFAULT_EXTENSIONS, ...userExtensions];
   let pathsWithExtensions = extensions.map(extension => '{app,src}/**/*' + extension);
-  return globby(pathsWithExtensions, { cwd });
+  return globby(pathsWithExtensions, { cwd, ignore: ignoredAppFiles });
 }
 
 async function findInRepoFiles(cwd, userExtensions) {
