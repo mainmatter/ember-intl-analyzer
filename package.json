@@ -39,7 +39,7 @@
     "eslint-plugin-prettier": "5.5.1",
     "execa": "9.6.0",
     "globals": "15.15.0",
-    "prettier": "3.6.1",
+    "prettier": "3.6.2",
     "release-plan": "0.13.1",
     "vitest": "3.2.4"
   },
