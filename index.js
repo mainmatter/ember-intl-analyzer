@@ -36,6 +36,7 @@ async function run(rootDir, options = {}) {
   let ignoredAppFiles = config.ignoredAppFiles || [];
   let customHelpers = config.helpers || [];
   let includeGtsExtension = userExtensions.includes('.gts');
+  let externalTemplates = config.externalTemplates || [];
 
   userExtensions = userExtensions.map(extension =>
     extension.startsWith('.') ? extension : `.${extension}`
@@ -48,13 +49,18 @@ async function run(rootDir, options = {}) {
     helpers: customHelpers,
   };
 
-  log(`${step(1)} 🔍  Finding JS and HBS files...`);
+  log(`${step(1)} 🔍  Finding files containing translations...`);
   let appFiles = await findAppFiles(rootDir, userExtensions, ignoredAppFiles);
   let inRepoFiles = await findInRepoFiles(rootDir, userExtensions);
   let files = [...appFiles, ...inRepoFiles];
 
-  log(`${step(2)} 🔍  Searching for translations keys in JS and HBS files...`);
-  let usedTranslationKeys = await analyzeFiles(rootDir, files, analyzeOptions);
+  let externalFiles = await findExternalFiles(rootDir, externalTemplates, userExtensions);
+
+
+  log(`${step(2)} 🔍  Searching for translations keys in your files...`);
+  let localTranslationKeys =  await analyzeFiles(rootDir, files, analyzeOptions);
+  let externalTranslationKeys = await analyzeFiles('', externalFiles, analyzeOptions);
+  let usedTranslationKeys = new Map([...localTranslationKeys, ...externalTranslationKeys]);
 
   log(`${step(3)} ⚙️   Checking for unused translations...`);
 
@@ -171,6 +177,23 @@ async function findInRepoFiles(cwd, userExtensions) {
   let pathsWithExtensions = extensions.map(extension => `**/*${extension}`);
 
   return globby(joinPaths(inRepoFolders, pathsWithExtensions), { cwd });
+}
+
+async function findExternalFiles(cwd, externalTemplates, userExtensions) {
+  if (externalTemplates.length === 0)  return [];
+
+  let baseUrl = path.join(cwd.split('qonto-web')[0], "qonto-web");
+  let extensions = [...DEFAULT_EXTENSIONS, ...userExtensions];
+
+  let files = []
+  for (let externalTemplate of externalTemplates) {
+    let templatePath = path.join(baseUrl, externalTemplate);
+    let pathsWithExtensions = extensions.map(extension => `{app,src}/**/*${extension}`);
+
+    let fullPaths = await globby(joinPaths(templatePath, pathsWithExtensions))
+    files.push(...fullPaths);
+  }
+  return files;
 }
 
 async function findOwnTranslationFiles(cwd, config) {
