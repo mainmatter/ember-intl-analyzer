@@ -1,5 +1,10 @@
 # Changelog
 
+
+
+
+
+
 ## Release (2025-03-20)
 
 ember-intl-analyzer 6.0.0 (major)
