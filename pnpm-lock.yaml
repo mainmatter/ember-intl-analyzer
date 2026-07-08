@@ -61,7 +61,7 @@ importers:
         specifier: 3.8.4
         version: 3.8.4
       release-plan:
-        specifier: ^0.18.0
+        specifier: 0.18.0
         version: 0.18.0
       vitest:
         specifier: 4.1.9
@@ -1555,9 +1555,6 @@ packages:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
     engines: {node: '>=6'}
 
-  minimatch@3.1.2:
-    resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
-
   minimatch@3.1.5:
     resolution: {integrity: sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==}
 
@@ -3047,7 +3044,7 @@ snapshots:
       fast-ordered-set: 1.0.3
       fs-tree-diff: 0.5.9
       heimdalljs: 0.2.6
-      minimatch: 3.1.2
+      minimatch: 3.1.5
       mkdirp: 0.5.6
       path-posix: 1.0.0
       rimraf: 2.7.1
@@ -3646,7 +3643,7 @@ snapshots:
     dependencies:
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.1.2
+      minimatch: 3.1.5
       once: 1.4.0
       path-is-absolute: 1.0.1
 
@@ -3655,7 +3652,7 @@ snapshots:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.1.2
+      minimatch: 3.1.5
       once: 1.4.0
       path-is-absolute: 1.0.1
 
@@ -3933,7 +3930,7 @@ snapshots:
 
   matcher-collection@1.1.2:
     dependencies:
-      minimatch: 3.1.2
+      minimatch: 3.1.5
 
   math-intrinsics@1.1.0: {}
 
@@ -3954,10 +3951,6 @@ snapshots:
       picomatch: 2.3.1
 
   mimic-fn@2.1.0: {}
-
-  minimatch@3.1.2:
-    dependencies:
-      brace-expansion: 1.1.12
 
   minimatch@3.1.5:
     dependencies:
