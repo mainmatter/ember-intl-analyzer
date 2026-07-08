@@ -41,7 +41,7 @@
     "globals": "15.15.0",
     "prettier": "3.8.5",
     "release-plan": "0.18.0",
-    "vitest": "4.1.9"
+    "vitest": "4.1.10"
   },
   "packageManager": "pnpm@10.34.4",
   "engines": {
