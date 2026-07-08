@@ -2,8 +2,8 @@
   "solution": {
     "ember-intl-analyzer": {
       "impact": "patch",
-      "oldVersion": "6.0.0",
-      "newVersion": "6.0.1",
+      "oldVersion": "6.0.1",
+      "newVersion": "6.0.2",
       "tagName": "latest",
       "constraints": [
         {
@@ -14,5 +14,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2026-07-08)\n\n* ember-intl-analyzer 6.0.1 (patch)\n\n#### :house: Internal\n* `ember-intl-analyzer`\n  * [#878](https://github.com/mainmatter/ember-intl-analyzer/pull/878) turn off automerge on renovatebot ([@mansona](https://github.com/mansona))\n  * [#877](https://github.com/mainmatter/ember-intl-analyzer/pull/877) update release plan to support OIDC ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2026-07-08)\n\n* ember-intl-analyzer 6.0.2 (patch)\n\n#### :house: Internal\n* `ember-intl-analyzer`\n  * [#881](https://github.com/mainmatter/ember-intl-analyzer/pull/881) fix repository url ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
