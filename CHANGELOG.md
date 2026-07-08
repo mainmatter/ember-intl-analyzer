@@ -1,5 +1,17 @@
 # Changelog
 
+## Release (2026-07-08)
+
+* ember-intl-analyzer 6.0.1 (patch)
+
+#### :house: Internal
+* `ember-intl-analyzer`
+  * [#878](https://github.com/mainmatter/ember-intl-analyzer/pull/878) turn off automerge on renovatebot ([@mansona](https://github.com/mansona))
+  * [#877](https://github.com/mainmatter/ember-intl-analyzer/pull/877) update release plan to support OIDC ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-03-20)
 
 ember-intl-analyzer 6.0.0 (major)
