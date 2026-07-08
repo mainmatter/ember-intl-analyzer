@@ -2,6 +2,17 @@
 
 ## Release (2026-07-08)
 
+* ember-intl-analyzer 6.0.2 (patch)
+
+#### :house: Internal
+* `ember-intl-analyzer`
+  * [#881](https://github.com/mainmatter/ember-intl-analyzer/pull/881) fix repository url ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2026-07-08)
+
 * ember-intl-analyzer 6.0.1 (patch)
 
 #### :house: Internal
