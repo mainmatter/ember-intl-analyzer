@@ -23,7 +23,7 @@
   "dependencies": {
     "@babel/parser": "^7.13.15",
     "@babel/traverse": "^7.13.17",
-    "@glimmer/syntax": "^0.80.0",
+    "@glimmer/syntax": "^0.95.0",
     "chalk": "^4.1.1",
     "content-tag": "^1.1.2",
     "emblem": "^0.12.1",
