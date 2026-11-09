@@ -55,8 +55,8 @@ importers:
         specifier: 9.6.1
         version: 9.6.1
       globals:
-        specifier: 15.15.0
-        version: 15.15.0
+        specifier: 17.14.0
+        version: 17.14.0
       prettier:
         specifier: 3.9.6
         version: 3.9.6
@@ -1291,6 +1291,10 @@ packages:
 
   globals@15.15.0:
     resolution: {integrity: sha512-7ACyT3wmyp3I61S4fG682L0VA2RGD9otkqGJIwNUMF1SWUombIIk+af1unuDYgMm082aHYwD+mzJvv9Iu8dsgg==}
+    engines: {node: '>=18'}
+
+  globals@17.14.0:
+    resolution: {integrity: sha512-UtdkTVyAJePQv0J2M9Xe4L0ruNSDV314XiIJsADI2Zf40bcdAonE/D/OhAU8AT99oij9mhLByb+NvA3QWZYgCg==}
     engines: {node: '>=18'}
 
   globby@11.1.0:
@@ -3701,6 +3705,8 @@ snapshots:
       path-is-absolute: 1.0.1
 
   globals@15.15.0: {}
+
+  globals@17.14.0: {}
 
   globby@11.1.0:
     dependencies:
